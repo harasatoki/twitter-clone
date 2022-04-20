@@ -52,4 +52,52 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(self::class, 'followers', 'following_id', 'followed_id');
     }
+    public function getAllUsers(Int $userId)
+    {
+        return $this->Where('id', '<>', $userId)->paginate(5);
+    }
+    // フォローする
+    public function follow(?Int $userId) 
+    {
+        return $this->follows()->attach($userId);
+    }
+
+    // フォロー解除する
+    public function unfollow(?Int $userId)
+    {
+        return $this->follows()->detach($userId);
+    }
+
+    // フォローしているか
+    public function isFollowing(?Int $userId) 
+    {
+        return $this->follows()->where('followed_id', $userId)->exists();
+    }
+
+    // フォローされているか
+    public function isFollowed(?Int $userId) 
+    {
+        return $this->followers()->where('following_id', $userId)->exists();
+    }
+    public function updateProfile(Array $params)
+    {
+        if (isset($params['profile_image'])) {
+            $file Name = $params['profile_image']->store('public/profile_image/');
+
+            $this::where('id', $this->id)
+                ->update([
+                    'screen_name'   => $params['screen_name'],
+                    'name'          => $params['name'],
+                    'profile_image' => basename($fileName),
+                    'email'         => $params['email'],
+                ]);
+        } else {
+            $this::where('id', $this->id)
+                ->update([
+                    'screen_name'   => $params['screen_name'],
+                    'name'          => $params['name'],
+                    'email'         => $params['email'],
+                ]); 
+        return;
+        }
 }
