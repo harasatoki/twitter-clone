@@ -20,14 +20,14 @@
                                     <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
                                 @else
                                     @if ($isFollowing)
-                                    <form action="{{ route('unfollow', ['id' => $user->id]) }}" method="POST">
+                                        <form action="{{ route('unfollow', ['id' => $user->id]) }}" method="POST">
                                         @csrf
                                             {{ method_field('DELETE') }}
 
                                             <button type="submit" class="btn btn-danger">フォロー解除</button>
                                         </form>
                                     @else
-                                    <form action="{{ route('follow', ['id' => $user->id]) }}" method="POST">
+                                        <form action="{{ route('follow', ['id' => $user->id]) }}" method="POST">
                                         @csrf
 
                                             <button type="submit" class="btn btn-primary">フォローする</button>
