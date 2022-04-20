@@ -19,22 +19,22 @@
                                 @if ($user->id === Auth::user()->id)
                                     <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
                                 @else
-                                    @if ($is_following)
-                                        <form action="/users/unfollow" id=$user->id method="POST">
+                                    @if ($isFollowing)
+                                    <form action="{{ route('unfollow', ['id' => $user->id]) }}" method="POST">
                                         @csrf
                                             {{ method_field('DELETE') }}
 
                                             <button type="submit" class="btn btn-danger">フォロー解除</button>
                                         </form>
                                     @else
-                                        <form action="/users/follow"　id=$user->id method="POST">
+                                    <form action="{{ route('follow', ['id' => $user->id]) }}" method="POST">
                                         @csrf
 
                                             <button type="submit" class="btn btn-primary">フォローする</button>
                                         </form>
                                     @endif
 
-                                    @if ($is_followed)
+                                    @if ($isFollowed)
                                         <span class="mt-2 px-1 bg-secondary text-light">フォローされています</span>
                                     @endif
                                 @endif
@@ -43,15 +43,15 @@
                         <div class="d-flex justify-content-end">
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">ツイート数</p>
-                                <span>{{ $tweet_count }}</span>
+                                <span>{{ $tweetCount }}</span>
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">フォロー数</p>
-                                <span>{{ $follow_count }}</span>
+                                <span>{{ $followCount }}</span>
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">フォロワー数</p>
-                                <span>{{ $follower_count }}</span>
+                                <span>{{ $followerCount }}</span>
                             </div>
                         </div>
                     </div>

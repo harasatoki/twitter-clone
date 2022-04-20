@@ -52,54 +52,31 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(self::class, 'followers', 'following_id', 'followed_id');
     }
-    public function getAllUsers(Int $user_id)
+    public function getAllUsers(Int $userId)
     {
-        return $this->Where('id', '<>', $user_id)->paginate(5);
+        return $this->Where('id', '<>', $userId)->paginate(5);
     }
     // フォローする
-    public function follow(?Int $user_id) 
+    public function follow(?Int $userId) 
     {
-        return $this->follows()->attach($user_id);
+        return $this->follows()->attach($userId);
     }
 
     // フォロー解除する
-    public function unfollow(?Int $user_id)
+    public function unfollow(?Int $userId)
     {
-        return $this->follows()->detach($user_id);
+        return $this->follows()->detach($userId);
     }
 
     // フォローしているか
-    public function isFollowing(?Int $user_id) 
+    public function isFollowing(?Int $userId) 
     {
-        return $this->follows()->where('followed_id', $user_id)->exists();
+        return $this->follows()->where('followed_id', $userId)->exists();
     }
 
     // フォローされているか
-    public function isFollowed(?Int $user_id) 
+    public function isFollowed(?Int $userId) 
     {
-        return $this->followers()->where('following_id', $user_id)->exists();
-    }
-    public function updateProfile(Array $params)
-    {
-        if (isset($params['profile_image'])) {
-            $file_name = $params['profile_image']->store('public/profile_image/');
-
-            $this::where('id', $this->id)
-                ->update([
-                    'screen_name'   => $params['screen_name'],
-                    'name'          => $params['name'],
-                    'profile_image' => basename($file_name),
-                    'email'         => $params['email'],
-                ]);
-        } else {
-            $this::where('id', $this->id)
-                ->update([
-                    'screen_name'   => $params['screen_name'],
-                    'name'          => $params['name'],
-                    'email'         => $params['email'],
-                ]); 
-        }
-
-        return;
+        return $this->followers()->where('following_id', $userId)->exists();
     }
 }
