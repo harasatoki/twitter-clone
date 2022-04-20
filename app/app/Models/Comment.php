@@ -21,5 +21,9 @@ class Comment extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function getComments(Int $tweetId)
+    {
+        return $this->with('user')->where('tweet_id', $tweetId)->get();
+    }
 
 }
