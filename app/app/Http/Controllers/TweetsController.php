@@ -17,7 +17,6 @@ class TweetsController extends Controller
      */
     public function index(Tweet $tweet, Follower $follower)
     {
-        //
         $user = auth()->user();
         $followIds = $follower->followingIds($user->id);
         // followed_idだけ抜き出す
@@ -37,7 +36,11 @@ class TweetsController extends Controller
      */
     public function create()
     {
-        //
+        $user = auth()->user();
+
+        return view('tweets.create', [
+            'user' => $user
+        ]);
     }
 
     /**
@@ -46,9 +49,18 @@ class TweetsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,Tweet $tweet)
     {
-        //
+        $user = auth()->user();
+        $data = $request->all();
+        $validator = Validator::make($data, [
+            'text' => ['required', 'string', 'max:140']
+        ]);
+
+        $validator->validate();
+        $tweet->tweetStore($user->id, $data);
+
+        return redirect('tweets');
     }
 
     /**
@@ -59,7 +71,6 @@ class TweetsController extends Controller
      */
     public function show(Tweet $tweet, Comment $comment)
     {
-        //
         $user = auth()->user();
         $tweet = $tweet->getTweet($tweet->id);
         $comments = $comment->getComments($tweet->id);

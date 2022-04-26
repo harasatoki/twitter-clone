@@ -82,7 +82,7 @@ class User extends Authenticatable
     public function updateProfile(Array $params)
     {
         if (isset($params['profile_image'])) {
-            $file Name = $params['profile_image']->store('public/profile_image/');
+            $fileName = $params['profile_image']->store('public/profile_image/');
 
             $this::where('id', $this->id)
                 ->update([
@@ -100,4 +100,5 @@ class User extends Authenticatable
                 ]); 
         return;
         }
+    }
 }
