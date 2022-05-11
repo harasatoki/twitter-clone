@@ -30,9 +30,9 @@
                                         <i class="fas fa-ellipsis-v fa-fw"></i>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <form method="POST" action="{{ url('tweets/' .$timeline->id) }}" class="mb-0">
+                                        <form method="POST" action="{{route('destroy', ['tweetId'=>$timeline->id]) }}" class="mb-0">
                                             @csrf
-                                            @method('DELETE')
+                                            {{method_field('DELETE')}}
 
                                             <a href="{{ url('tweets/' .$timeline->id .'/edit') }}" class="dropdown-item">編集</a>
                                             <button type="submit" class="dropdown-item del-btn">削除</button>
