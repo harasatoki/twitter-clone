@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TweetsController;
+use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\FavoritesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,4 +34,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::delete('users/unfollow', [UsersController::class,'unfollow'])->name('unfollow');
     Route::resource('tweets',TweetsController::class,['only'=>['index','create','store','show','edit','update']]);
     Route::delete('tweets/destroy', [TweetsController::class,'destroy'])->name('destroy');
+    Route::resource('comments', CommentsController::class, ['only' => ['store']]);
+    Route::resource('favorites', FavoritesController::class, ['only' => ['store', 'destroy']]);
 });
