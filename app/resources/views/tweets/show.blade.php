@@ -20,11 +20,11 @@
                 </div>
                 <div class="card-footer py-1 d-flex justify-content-end bg-white">
                     @if ($tweet->user->id === Auth::user()->id)
-                        <div class="dropdown mr-3 d-flex align-items-center">
-                            <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="nav-item dropdown mr-3 d-flex align-items-center">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <i class="fas fa-ellipsis-v fa-fw"></i>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
                                 <form method="POST" action="{{ url('tweets/' .$tweet->id) }}" class="mb-0">
                                     @csrf
                                     @method('DELETE')
