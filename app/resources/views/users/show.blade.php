@@ -17,21 +17,14 @@
                         <div class="d-flex">
                             <div>
                                 @if ($user->id === Auth::user()->id)
-                                    <a href="{{ url('users/' .$user->id .'/edit') }}" class="btn btn-primary">プロフィールを編集する</a>
+                                    <a href="{{ route('users.edit',$user->id)}}" class="btn btn-primary">プロフィールを編集する</a>
                                 @else
                                     @if ($isFollowing)
-                                        <form action="{{ route('unfollow', ['id' => $user->id]) }}" method="POST">
-                                        @csrf
-                                            {{ method_field('DELETE') }}
-
-                                            <button type="submit" class="btn btn-danger">フォロー解除</button>
-                                        </form>
+                                        <button class="btn btn-danger unfollow" id="unfollow-{{ $user->id }}"  data-id="{{ $user->id }}">フォロー解除</button>
+                                        <button class="btn btn-primary follow" id="follow-{{ $user->id }}"  data-id="{{ $user->id }}"　style="display:none">フォローする</button>
                                     @else
-                                        <form action="{{ route('follow', ['id' => $user->id]) }}" method="POST">
-                                        @csrf
-
-                                            <button type="submit" class="btn btn-primary">フォローする</button>
-                                        </form>
+                                        <button class="btn btn-danger unfollow" id="unfollow-{{ $user->id }}"  data-id="{{ $user->id }}" style="display:none">フォロー解除</button>
+                                        <button class="btn btn-primary follow" id="follow-{{ $user->id }}"  data-id="{{ $user->id }}">フォローする</button>
                                     @endif
 
                                     @if ($isFollowed)
@@ -39,6 +32,11 @@
                                     @endif
                                 @endif
                             </div>
+                        </div>
+                        <div class= "d-flex flex-row text-secondary">
+                            <p><font size="3">
+                                <h4 class="font-weight-bold">{{ substr($user->created_at, 0,10)}}</h4>
+                            </font></p>
                         </div>
                         <div class="d-flex justify-content-end">
                             <div class="p-2 d-flex flex-column align-items-center">
@@ -66,7 +64,7 @@
                             <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
                             <div class="ml-2 d-flex flex-column flex-grow-1">
                                 <p class="mb-0">{{ $timeline->user->name }}</p>
-                                <a href="{{ url('users/' .$timeline->user->id) }}" class="text-secondary">{{ $timeline->user->screen_name }}</a>
+                                <a href="{{route('users.show',$timeline->user->id) }}" class="text-secondary">{{ $timeline->user->screen_name }}</a>
                             </div>
                             <div class="d-flex justify-content-end flex-grow-1">
                                 <p class="mb-0 text-secondary">{{ $timeline->created_at->format('Y-m-d H:i') }}</p>
@@ -82,11 +80,11 @@
                                         <i class="fas fa-ellipsis-v fa-fw"></i>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                        <form method="POST" action="{{ url('tweets/' .$timeline->id) }}" class="mb-0">
+                                        <form method="POST" action="{{route('tweets.destroy',['tweetId'=>$timeline->id]) }}" class="mb-0">
                                             @csrf
                                             @method('DELETE')
 
-                                            <a href="{{ url('tweets/' .$timeline->id .'/edit') }}" class="dropdown-item">編集</a>
+                                            <a href="{{ route('tweets.edit',$timeline->id )}}" class="dropdown-item">編集</a>
                                             <button type="submit" class="dropdown-item del-btn">削除</button>
                                         </form>
                                     </div>
@@ -98,14 +96,14 @@
                             </div>
                             <div class="d-flex align-items-center">
                                 @if (!in_array(Auth::user()->id, array_column($timeline->favorites->toArray(), 'user_id'), TRUE))
-                                    <form method="POST" action="{{ url('favorites/') }}" class="mb-0">
+                                    <form method="POST" action="{{ route('favorites.store') }}" class="mb-0">
                                         @csrf
 
                                         <input type="hidden" name="tweet_id" value="{{ $timeline->id }}">
                                         <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
                                     </form>
                                 @else
-                                    <form method="POST"action="{{ url('favorites/' .array_column($timeline->favorites->toArray(), 'id', 'user_id')[Auth::user()->id]) }}" class="mb-0">
+                                    <form method="POST" action="{{ route('favorites.destroy', $timeline->search($loginUser->id,$timeline->id)->id ) }}" class="mb-0">
                                         @csrf
                                         @method('DELETE')
 
@@ -125,3 +123,4 @@
     </div>
 </div>
 @endsection
+<script src="{{ asset('/js/follow.js') }}" defer></script>
