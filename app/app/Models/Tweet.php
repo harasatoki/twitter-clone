@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+
+use App\Http\Controllers\FavoritesController;
 use Illuminate\Database\Eloquent\softDeletes;
 use Illuminate\Database\Eloquent\Model;
 
@@ -58,8 +60,9 @@ class Tweet extends Model
 
         return;
     }
-    public function getEditTweet(Int $userId, Int $tweetId)
+    public function getTweetEdit(Int $userId, Int $tweetId)
     {
+
         return $this->where('user_id', $userId)->where('id', $tweetId)->first();
     }
     public function tweetUpdate(Int $tweetId, Array $data)
@@ -72,6 +75,10 @@ class Tweet extends Model
     }
     public function tweetDestroy(Int $userId, Int $tweetId)
     {
+
         return $this->where('user_id', $userId)->where('id', $tweetId)->delete();
+    }
+    public function search(Int $userId, Int $tweetId){
+        return $this->favorites()->where('user_id', $userId)->where('tweet_id', $tweetId)->first();
     }
 }

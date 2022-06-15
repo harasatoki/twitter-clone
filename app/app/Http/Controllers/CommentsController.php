@@ -29,9 +29,11 @@ class CommentsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * コメント内容の保存
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param Comment $comment
+     * 
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request,Comment $comment)

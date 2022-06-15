@@ -28,9 +28,11 @@ class FavoritesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * いいね情報の保存
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param Favorite $favorite
+     * 
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request,Favorite $favorite)
@@ -81,9 +83,10 @@ class FavoritesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * いいね情報の削除
      *
-     * @param  int  $id
+     * @param  Favorite $favorite
+     * 
      * @return \Illuminate\Http\Response
      */
     public function destroy(Favorite $favorite)

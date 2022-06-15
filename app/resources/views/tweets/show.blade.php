@@ -9,7 +9,7 @@
                     <img src="{{ asset('storage/profile_image/' .$tweet->user->profile_image) }}" class="rounded-circle" width="50" height="50">
                     <div class="ml-2 d-flex flex-column">
                         <p class="mb-0">{{ $tweet->user->name }}</p>
-                        <a href="{{ url('users/' .$tweet->user->id) }}" class="text-secondary">{{ $tweet->user->screen_name }}</a>
+                        <a href="{{ route('users.show' ,[$tweet->user->id]) }}" class="text-secondary">{{ $tweet->user->screen_name }}</a>
                     </div>
                     <div class="d-flex justify-content-end flex-grow-1">
                         <p class="mb-0 text-secondary">{{ $tweet->created_at->format('Y-m-d H:i') }}</p>
@@ -25,30 +25,30 @@
                                 <i class="fas fa-ellipsis-v fa-fw"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                                <form method="POST" action="{{ url('tweets/' .$tweet->id) }}" class="mb-0">
+                                <form method="POST" action="{{ route('tweets.destroy', ['favoriteId'=>$tweet->id]) }}" class="mb-0">
                                     @csrf
                                     @method('DELETE')
 
-                                    <a href="{{ url('tweets/' .$tweet->id .'/edit') }}" class="dropdown-item">編集</a>
+                                    <a href="{{ route('tweets.edit',[$tweet->id]) }}" class="dropdown-item">編集</a>
                                     <button type="submit" class="dropdown-item del-btn">削除</button>
                                 </form>
                             </div>
                         </div>
                     @endif
                     <div class="mr-3 d-flex align-items-center">
-                        <a href="{{ url('tweets/' .$tweet->id) }}"><i class="far fa-comment fa-fw"></i></a>
+                        <a href="{{ route('tweets.show' ,[$tweet->id]) }}"><i class="far fa-comment fa-fw"></i></a>
                         <p class="mb-0 text-secondary">{{ count($tweet->comments) }}</p>
                     </div>
                     <div class="d-flex align-items-center">
                         @if (!in_array($user->id, array_column($tweet->favorites->toArray(), 'user_id'), TRUE))
-                            <form method="POST" action="{{ url('favorites/') }}" class="mb-0">
+                            <form method="POST" action="{{ route('favorites.store') }}" class="mb-0">
                                 @csrf
 
                                 <input type="hidden" name="tweet_id" value="{{ $tweet->id }}">
                                 <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
                             </form>
                         @else
-                            <form method="POST" action="{{ url('favorites/' .array_column($tweet->favorites->toArray(), 'id', 'user_id')[$user->id]) }}" class="mb-0">
+                            <form method="POST" action="{{ route('favorites.destroy', $favoriteId->id) }}" class="mb-0">
                                 @csrf
                                 @method('DELETE')
 
@@ -71,7 +71,7 @@
                             <img src="{{ asset('storage/profile_image/' .$comment->user->profile_image) }}" class="rounded-circle" width="50" height="50">
                             <div class="ml-2 d-flex flex-column">
                                 <p class="mb-0">{{ $comment->user->name }}</p>
-                                <a href="{{ url('users/' .$comment->user->id) }}" class="text-secondary">{{ $comment->user->screen_name }}</a>
+                                <a href="{{ route('users.show' ,[$comment->user->id]) }}" class="text-secondary">{{ $comment->user->screen_name }}</a>
                             </div>
                             <div class="d-flex justify-content-end flex-grow-1">
                                 <p class="mb-0 text-secondary">{{ $comment->created_at->format('Y-m-d H:i') }}</p>
@@ -96,7 +96,7 @@
                                     <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
                                     <div class="ml-2 d-flex flex-column">
                                         <p class="mb-0">{{ $user->name }}</p>
-                                        <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{ $user->screen_name }}</a>
+                                        <a href="{{ route('users.show' ,[$user->id]) }}" class="text-secondary">{{ $user->screen_name }}</a>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
