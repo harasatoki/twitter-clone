@@ -43,9 +43,11 @@ class FavoritesController extends Controller
 
         if(!$isFavorite) {
             $favorite->storeFavorite($user->id, $tweetId);
-            return back();
         }
-        return back();
+
+        $countFavorite=$favorite->countFavorite($user->id, $tweetId);
+
+        return response()->json(['countFavorite'=>$countFavorite]);
     }
 
     /**
@@ -86,20 +88,27 @@ class FavoritesController extends Controller
      * いいね情報の削除
      *
      * @param  Favorite $favorite
-     * 
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Favorite $favorite)
+    public function destroy(Favorite $favorite,Request $request)
     {
-        $userId = $favorite->user_id;
-        $tweetId = $favorite->tweet_id;
-        $favoriteId = $favorite->id;
+        // 変更
+        $tweetId = $request->tweet_id;
+        $userId = auth()->user()->id;
+        $favoriteId=$favorite->fetchFavorite($userId,$tweetId)->id;
+
+        // $userId = $favorite->user_id;
+        // $tweetId = $favorite->tweet_id;
+        // $favoriteId = $favorite->id;
         $isFavorite = $favorite->isFavorite($userId, $tweetId);
 
         if($isFavorite) {
             $favorite->destroyFavorite($favoriteId);
-            return back();
         }
-        return back();
+        $countFavorite=$favorite->countFavorite($userId, $tweetId);
+
+        return response()->json(['countFavorite'=>$countFavorite]);
     }
 }
