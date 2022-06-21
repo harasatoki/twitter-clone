@@ -43,42 +43,89 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * フォロワーリレーション
+     *
+     * @return void
+     */
     public function followers()
     {
         return $this->belongsToMany(self::class, 'followers', 'followed_id', 'following_id');
     }
 
+    /**
+     * フォローリレーション
+     *
+     * @return void
+     */
+
     public function follows()
     {
         return $this->belongsToMany(self::class, 'followers', 'following_id', 'followed_id');
     }
-    public function getAllUsers(Int $userId)
+
+    /**
+     * 全ユーザーを取得
+     *
+     * @param Int $userId
+     * @return void
+     */
+    public function fetchAllUsers(Int $userId)
     {
         return $this->Where('id', '<>', $userId)->paginate(5);
     }
-    // フォローする
+
+    /**
+     * フォローする
+     *
+     * @param Int|null $userId
+     * @return void
+     */
     public function follow(?Int $userId) 
     {
         return $this->follows()->attach($userId);
     }
 
-    // フォロー解除する
+    /**
+     * フォロー解除する
+     *
+     * @param Int|null $userId
+     * @return void
+     */
     public function unfollow(?Int $userId)
     {
         return $this->follows()->detach($userId);
     }
 
-    // フォローしているか
+    /**
+     * フォローしているか
+     *
+     * @param Int|null $userId
+     * @return boolean
+     */
     public function isFollowing(?Int $userId) 
     {
         return $this->follows()->where('followed_id', $userId)->exists();
     }
 
-    // フォローされているか
+    /**
+     * フォローされているか
+     *
+     * @param Int|null $userId
+     * @return boolean
+     */
     public function isFollowed(?Int $userId) 
     {
         return $this->followers()->where('following_id', $userId)->exists();
     }
+
+    /**
+     * ユーザー情報の更新
+     *
+     * @param Array $params
+     * @return void
+     */
     public function updateProfile(Array $params)
     {
         if (isset($params['profile_image'])) {

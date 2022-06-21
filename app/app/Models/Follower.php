@@ -16,16 +16,36 @@ class Follower extends Model
     ];
     public $timestamps = false;
     public $incrementing = false;
-    public function getFollowCount($userId)
+
+    /**
+     * フォローの数取得
+     *
+     * @param [type] $userId
+     * @return void
+     */
+    public function fetchFollowCount($userId)
     {
         return $this->where('following_id', $userId)->count();
     }
 
-    public function getFollowerCount($userId)
+    /**
+     * フォロワーの数取得
+     *
+     * @param [type] $userId
+     * @return void
+     */
+    public function fetchFollowerCount($userId)
     {
         return $this->where('followed_id', $userId)->count();
     }
-    public function followingIds(Int $userId)
+
+    /**
+     * フォロワーのIDを取得
+     *
+     * @param Int $userId
+     * @return void
+     */
+    public function followedIds(Int $userId)
     {
         return $this->where('following_id', $userId)->get('followed_id');
     }

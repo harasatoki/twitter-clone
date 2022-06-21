@@ -38,5 +38,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('tweets',TweetsController::class,['only'=>['index','create','store','show','edit','update']]);
     Route::delete('tweets/destroy', [TweetsController::class,'destroy'])->name('tweets.destroy');
     Route::resource('comments', CommentsController::class, ['only' => ['store']]);
-    Route::resource('favorites', FavoritesController::class, ['only' => ['store', 'destroy']]);
+    Route::post('favorites/store', [FavoritesController::class, 'store']);
+    Route::delete('favorites/destroy', [FavoritesController::class, 'destroy'])->name('favorites.destroy');
 });

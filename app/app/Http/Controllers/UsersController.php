@@ -22,7 +22,7 @@ class UsersController extends Controller
      */
     public function index(User $user)
     {
-        $users = $user->getAllUsers(auth()->user()->id);
+        $users = $user->fetchAllUsers(auth()->user()->id);
 
         return view('users.index', [
             'users'  => $users
@@ -71,27 +71,6 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * ユーザー詳細
      *
      * @param  User $user
@@ -100,16 +79,16 @@ class UsersController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user,Tweet $tweet, Follower $follower)
+    public function show(User $user, Tweet $tweet, Follower $follower)
     {
         $loginUser = auth()->user();
         $isFollowing = $loginUser->isFollowing($user->id);
         $isFollowed = $loginUser->isFollowed($user->id);
 
-        $timelines = $tweet->getUserTimeLine($user->id);
-        $tweetCount = $tweet->getTweetCount($user->id);
-        $followCount = $follower->getFollowCount($user->id);
-        $followerCount = $follower->getFollowerCount($user->id);
+        $timelines = $tweet->fetchUserTimeLine($user->id);
+        $tweetCount = $tweet->fetchTweetCount($user->id);
+        $followCount = $follower->fetchFollowCount($user->id);
+        $followerCount = $follower->fetchFollowerCount($user->id);
 
         return view('users.show', [
             'loginUser'  =>$loginUser,
@@ -156,16 +135,5 @@ class UsersController extends Controller
         $user->updateProfile($data);
 
         return redirect('users/'.$user->id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

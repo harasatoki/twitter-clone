@@ -10931,7 +10931,6 @@ var _require = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jqu
 
 jQuery(document).ready(function () {
   $('.follow').on('click', function () {
-    console.log("follow");
     var $this = $(this);
     userId = $this.data('id');
     $.ajax({
@@ -10947,19 +10946,15 @@ jQuery(document).ready(function () {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     }).done(function (res) {
-      console.log("follow success");
       document.getElementById('follow-' + userId).style.display = 'none';
       document.getElementById('unfollow-' + userId).style.display = 'inline';
-    }).fail(function (error) {
-      console.log(error.statusText);
-    });
+    }).fail(function (error) {});
   });
   $('.unfollow').on('click', function () {
-    console.log("delete");
     var $this = $(this);
     userId = $this.data('id');
     $.ajax({
-      type: "post",
+      type: "delete",
       //HTTP通信の種類
       url: '/users/unfollow',
       //通信したいURL
@@ -10972,12 +10967,9 @@ jQuery(document).ready(function () {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       }
     }).done(function (res) {
-      console.log("delete saccess");
       document.getElementById('follow-' + userId).style.display = 'inline';
       document.getElementById('unfollow-' + userId).style.display = 'none';
-    }).fail(function (error) {
-      console.log(error.statusText);
-    });
+    }).fail(function (error) {});
   });
 });
 })();

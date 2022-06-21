@@ -5,7 +5,6 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 @foreach ($users as $user)
-                <?php $i=0?>
                     <div class="card">
                         <div class="card-haeder p-3 w-100 d-flex">
                             <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
@@ -18,7 +17,7 @@
                                     <span class="px-1 bg-secondary text-light">フォローされています</span>
                                 </div>
                             @endif
-                            <div class="d-flex justify-content-end flex-grow-1 setid" data-user="{{ $user->id }}">
+                            <div class="d-flex justify-content-end flex-grow-1" data-user="{{ $user->id }}">
                                 @if (auth()->user()->isFollowing($user->id))
                                     <button class="btn btn-danger unfollow" id="unfollow-{{ $user->id }}"  data-id="{{ $user->id }}">フォロー解除</button>
                                     <button class="btn btn-primary follow" id="follow-{{ $user->id }}"  data-id="{{ $user->id }}"　style="display:none">フォローする</button>
@@ -31,7 +30,6 @@
                             </div>
                         </div>
                     </div>
-                    <?php $i+=1?>
                 @endforeach
             </div>
         </div>
@@ -41,4 +39,3 @@
     </div>
 @endsection
 <script src="{{ asset('/js/follow.js') }}" defer></script>
-{{-- <script src="{{ asset('/js/unfollow.js') }}" defer></script> --}}

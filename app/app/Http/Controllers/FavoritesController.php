@@ -8,26 +8,6 @@ use App\Models\Favorite;
 class FavoritesController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * いいね情報の保存
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,7 +15,7 @@ class FavoritesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Favorite $favorite)
+    public function store(Request $request, Favorite $favorite)
     {
         $user = auth()->user();
         $tweetId = $request->tweet_id;
@@ -51,40 +31,6 @@ class FavoritesController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * いいね情報の削除
      *
      * @param  Favorite $favorite
@@ -92,7 +38,7 @@ class FavoritesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Favorite $favorite,Request $request)
+    public function destroy(Favorite $favorite, Request $request)
     {
         // 変更
         $tweetId = $request->tweet_id;
