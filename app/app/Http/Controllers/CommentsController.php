@@ -25,9 +25,9 @@ class CommentsController extends Controller
      */
     public function store(Request $request, Comment $comment)
     {
-        $user = auth()->user();
+        $userId = auth()->id();
         $commentData = $request->all();
-        $comment->commentStore($user->id, $commentData);
+        $comment->commentStore($userId, $commentData);
 
         return back();
     }

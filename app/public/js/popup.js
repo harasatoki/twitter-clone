@@ -1,8 +1,5 @@
-/******/ (() => { // webpackBootstrap
+(() => { 
 var __webpack_exports__ = {};
-/*!*******************************!*\
-  !*** ./resources/js/popup.js ***!
-  \*******************************/
 jQuery(document).ready(function () {
   $('.modal_pop').hide();
   $('.show_pop').on('click', function () {
@@ -12,5 +9,5 @@ jQuery(document).ready(function () {
     $('.modal_pop').fadeOut();
   });
 });
-/******/ })()
+})()
 ;

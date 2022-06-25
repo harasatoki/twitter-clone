@@ -5,14 +5,12 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 
-class ValiUserMiddleware
+class ValidateTweetMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  User $user
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
@@ -20,14 +18,10 @@ class ValiUserMiddleware
     public function handle(Request $request, Closure $next)
     {
         $alldata = $request->all();
-        $user=auth()->user();
-        $_validator = Validator::make($alldata, [
-            'screen_name'   => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
-            'name'          => ['required', 'string', 'max:255'],
-            'profileImage' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
+        $validator = Validator::make($alldata, [
+            'text' => ['required', 'string', 'max:140']
         ]);
-        $_validator->validate();
+        $validator->validate();
         return $next($request);
     }
 }

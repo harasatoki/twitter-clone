@@ -17,17 +17,17 @@ class FavoritesController extends Controller
      */
     public function store(Request $request, Favorite $favorite)
     {
-        $user = auth()->user();
+        $userId = auth()->id();
         $tweetId = $request->tweet_id;
-        $isFavorite = $favorite->isFavorite($user->id, $tweetId);
+        $isFavorite = $favorite->isFavorite($userId, $tweetId);
 
-        if(!$isFavorite) {
-            $favorite->storeFavorite($user->id, $tweetId);
+        if( !$isFavorite ){
+            $favorite->storeFavorite($userId, $tweetId);
         }
 
-        $countFavorite=$favorite->countFavorite($user->id, $tweetId);
+        $countFavorite = $favorite->countFavorite($userId, $tweetId);
 
-        return response()->json(['countFavorite'=>$countFavorite]);
+        return response()->json(['countFavorite' => $countFavorite]);
     }
 
     /**
@@ -41,15 +41,15 @@ class FavoritesController extends Controller
     public function destroy(Favorite $favorite, Request $request)
     {
         $tweetId = $request->tweet_id;
-        $userId = auth()->user()->id;
-        $favoriteId=$favorite->fetchFavorite($userId,$tweetId)->id;
+        $userId = auth()->id();
+        $favoriteId = $favorite->fetchFavoriteId($userId,$tweetId);
         $isFavorite = $favorite->isFavorite($userId, $tweetId);
 
-        if($isFavorite) {
+        if( $isFavorite ) {
             $favorite->destroyFavorite($favoriteId);
         }
-        $countFavorite=$favorite->countFavorite($userId, $tweetId);
+        $countFavorite = $favorite->countFavorite($userId, $tweetId);
 
-        return response()->json(['countFavorite'=>$countFavorite]);
+        return response()->json(['countFavorite' => $countFavorite]);
     }
 }

@@ -1,17 +1,12 @@
-/******/ (() => { // webpackBootstrap
+(() => { 
 var __webpack_exports__ = {};
-/*!**********************************!*\
-  !*** ./resources/js/favorite.js ***!
-  \**********************************/
 jQuery(document).ready(function () {
   $('.favorite').on('click', function () {
     var $this = $(this);
     tweetId = $this.data('tweetid');
     $.ajax({
       type: "post",
-      //HTTP通信の種類
       url: '/favorites/store',
-      //通信したいURL
       dataType: 'json',
       data: {
         "tweet_id": tweetId
@@ -30,9 +25,7 @@ jQuery(document).ready(function () {
     tweetId = $this.data('tweetid');
     $.ajax({
       type: "delete",
-      //HTTP通信の種類
       url: '/favorites/destroy',
-      //通信したいURL
       dataType: 'json',
       data: {
         'tweet_id': tweetId,
@@ -48,5 +41,5 @@ jQuery(document).ready(function () {
     }).fail(function (error) {});
   });
 });
-/******/ })()
+})()
 ;

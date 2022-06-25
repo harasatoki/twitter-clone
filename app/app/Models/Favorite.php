@@ -56,8 +56,8 @@ class Favorite extends Model
      * 
      * @return \Illuminate\Http\Response
      */
-    public function fetchFavorite(int $userId, int $tweetId){
-        return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->first();
+    public function fetchFavoriteId(int $userId, int $tweetId){
+        return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->id;
     }
 
     /**

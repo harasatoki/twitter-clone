@@ -20,7 +20,7 @@ class Follower extends Model
     /**
      * フォローの数取得
      *
-     * @param [type] $userId
+     * @param int $userId
      * 
      * @return int
      */
@@ -32,7 +32,7 @@ class Follower extends Model
     /**
      * フォロワーの数取得
      *
-     * @param [type] $userId
+     * @param int $userId
      * 
      * @return int
      */
@@ -48,7 +48,7 @@ class Follower extends Model
      * 
      * @return array
      */
-    public function followedIds(int $userId)
+    public function fetchFollowedIds(int $userId)
     {
         return $this->where('following_id', $userId)->get('followed_id');
     }

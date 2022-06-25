@@ -1,12 +1,10 @@
-const { data } = require("jquery");
-
 jQuery(document).ready(function () {
     $('.follow').on('click',function(){
         let $this=$(this)
         userId=$this.data('id')
         $.ajax({
-            type: "post", //HTTP通信の種類
-            url:'/users/follow', //通信したいURL
+            type: "post", 
+            url:'/users/follow',
             dataType: 'json',
             data:{
                 "id":userId
@@ -26,8 +24,8 @@ jQuery(document).ready(function () {
         let $this=$(this)
         userId=$this.data('id')
         $.ajax({
-            type: "delete", //HTTP通信の種類
-            url:'/users/unfollow', //通信したいURL
+            type: "delete", 
+            url:'/users/unfollow', 
             dataType: 'json',
             data:{
                 'id':userId,
