@@ -14,7 +14,7 @@ class TweetsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('valiMiddleware')->only(['store','update']);
+        $this->middleware('valiTweetMiddleware')->only(['store','update']);
     }
 
     /**
@@ -23,7 +23,7 @@ class TweetsController extends Controller
      * @param Follower $follower
      * @param Tweet $tweet
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index(Tweet $tweet, Follower $follower)
     {
@@ -42,7 +42,7 @@ class TweetsController extends Controller
     /**
      *ツイート作成画面
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -64,8 +64,8 @@ class TweetsController extends Controller
     public function store(Request $request, Tweet $tweet)
     {
         $user = auth()->user();
-        $data = $request->all();
-        $tweet->storeTweet($user->id, $data);
+        $tweetData = $request->all();
+        $tweet->storeTweet($user->id, $tweetData);
 
         return redirect('tweets');
     }
@@ -77,7 +77,7 @@ class TweetsController extends Controller
      * @param  Comment  $comment
      * @param  Favorite $favorite
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function show(Tweet $tweet, Comment $comment, Favorite $favorite)
     {
@@ -124,9 +124,10 @@ class TweetsController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(Tweet $tweet)
+    public function update(Tweet $tweet, Request $request)
     {
-        $tweet->updateTweet($tweet->id, $data);
+        $tweetData = $request->all();
+        $tweet->updateTweet($tweet->id, $tweetData);
 
         return redirect('tweets');
     }
@@ -143,6 +144,6 @@ class TweetsController extends Controller
         $user = auth()->user();
         $tweet->destroyTweet($user->id, $request->input('tweetId'));
 
-        return back();
+        return redirect('tweets');
     }
 }

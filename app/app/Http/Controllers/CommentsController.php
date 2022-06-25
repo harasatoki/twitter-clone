@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Comment;
 
 class CommentsController extends Controller
@@ -13,7 +12,7 @@ class CommentsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('valiMiddleware')->only(['store','update']);
+        $this->middleware('valiCommentMiddleware')->only(['store']);
     }
 
     /**
@@ -27,9 +26,8 @@ class CommentsController extends Controller
     public function store(Request $request, Comment $comment)
     {
         $user = auth()->user();
-        $data = $request->all();
-
-        $comment->commentStore($user->id, $data);
+        $commentData = $request->all();
+        $comment->commentStore($user->id, $commentData);
 
         return back();
     }

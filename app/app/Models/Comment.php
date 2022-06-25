@@ -20,8 +20,6 @@ class Comment extends Model
 
     /**
      * ユーザーリレーション
-     *
-     * @return void
      */
     public function user()
     {
@@ -31,10 +29,11 @@ class Comment extends Model
     /**
      * コメント取得
      *
-     * @param Int $tweetId
-     * @return void
+     * @param int $tweetId
+     * 
+     * @return array
      */
-    public function fetchComments(Int $tweetId)
+    public function fetchComments(int $tweetId)
     {
         return $this->with('user')->where('tweet_id', $tweetId)->get();
     }
@@ -42,16 +41,16 @@ class Comment extends Model
     /**
      * コメント保存
      *
-     * @param Int $userId
-     * @param Array $data
+     * @param int $userId
+     * @param array $data
+     * 
      * @return void
      */
-    public function commentStore(Int $userId, Array $commentData)
+    public function commentStore(int $userId, array $commentData) : void
     {
         $this->user_id = $userId;
         $this->tweet_id = $commentData['tweet_id'];
         $this->text = $commentData['text'];
         $this->save();
-        return;
     }
 }
