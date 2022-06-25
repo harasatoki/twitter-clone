@@ -19,4 +19,3 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/popup.js', 'public/js')
     .postCss('resources/css/popup.css', 'public/css')
     ;
-    
