@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Tweet;
 use App\Models\Follower;
@@ -14,11 +11,19 @@ use App\Http\Controllers\Controller;
 class UsersController extends Controller
 {
     /**
+     * バリデーション
+     */
+    public function __construct()
+    {
+        $this->middleware('valiUserMiddleware')->only(['update']);
+    }
+
+    /**
      * ユーザー一覧
      * 
-     *@param User $user
+     * @param User $user
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index(User $user)
     {
@@ -33,7 +38,8 @@ class UsersController extends Controller
      * フォロー機能
      *
      * @param Request $request
-     * @return void
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function follow(Request $request)
     {
@@ -55,7 +61,8 @@ class UsersController extends Controller
      * unfolow機能
      *
      * @param Request $request
-     * @return void
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function unfollow(Request $request)
     {
@@ -77,7 +84,7 @@ class UsersController extends Controller
      * @param Tweet $tweet
      * @param Follower $follower
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function show(User $user, Tweet $tweet, Follower $follower)
     {
@@ -107,7 +114,7 @@ class UsersController extends Controller
      *
      * @param  User $user
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit(User $user)
     {
@@ -124,15 +131,8 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            'screenName'   => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
-            'name'          => ['required', 'string', 'max:255'],
-            'profileImage' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
-        ]);
-        $validator->validate();
-        $user->updateProfile($data);
+        $userData = $request->all();
+        $user->updateProfile($userData);
 
         return redirect('users/'.$user->id);
     }

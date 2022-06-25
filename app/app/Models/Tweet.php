@@ -21,8 +21,6 @@ class Tweet extends Model
 
     /**
      * ユーザーリレーション
-     *
-     * @return void
      */
     public function user()
     {
@@ -31,8 +29,6 @@ class Tweet extends Model
 
     /**
      * フェイバリットリレーション
-     *
-     * @return void
      */
     public function favorites()
     {
@@ -41,8 +37,6 @@ class Tweet extends Model
 
     /**
      * コメントリレーション
-     *
-     * @return void
      */
     public function comments()
     {
@@ -52,10 +46,11 @@ class Tweet extends Model
     /**
      * ユーザータイムライン取得
      *
-     * @param Int|null $userId
-     * @return void
+     * @param int|null $userId
+     * 
+     * @return \Illuminate\Http\Response
      */
-    public function fetchUserTimeLine(?Int $userId)
+    public function fetchUserTimeLine(?int $userId)
     {
         return $this->where('user_id', $userId)->orderBy('created_at', 'DESC')->paginate(50);
     }
@@ -63,10 +58,11 @@ class Tweet extends Model
     /**
      * ツイート数取得
      *
-     * @param Int|null $userId
-     * @return void
+     * @param int|null $userId
+     * 
+     * @return int
      */
-    public function fetchTweetCount(?Int $userId)
+    public function fetchTweetCount(?int $userId)
     {
         return $this->where('user_id', $userId)->count();
     }
@@ -74,11 +70,12 @@ class Tweet extends Model
     /**
      * タイムライン取得
      *
-     * @param Int $userId
-     * @param Array $followIds
-     * @return void
+     * @param int $userId
+     * @param array $followIds
+     * 
+     * @return array
      */
-    public function fetchTimeLines(Int $userId, Array $followIds)
+    public function fetchTimeLines(int $userId, array $followIds)
     {
         // 自身とフォローしているユーザIDを結合する
         $followIds[] = $userId;
@@ -88,10 +85,11 @@ class Tweet extends Model
     /**
      * ツイート情報取得
      *
-     * @param Int $tweetId
-     * @return void
+     * @param int $tweetId
+     * 
+     * @return \Illuminate\Http\Response
      */
-    public function fetchTweet(Int $tweetId)
+    public function fetchTweet(int $tweetId)
     {
         return $this->with('user')->where('id', $tweetId)->first();
     }
@@ -99,27 +97,28 @@ class Tweet extends Model
     /**
      *ツイート保存
      *
-     * @param Int $userId
-     * @param Array $data
+     * @param int $userId
+     * @param array $data
+     * 
      * @return void
      */
-    public function storeTweet(Int $userId, Array $data)
+    public function storeTweet(int $userId, array $data) : void
     {
         $this->user_id = $userId;
         $this->text = $data['text'];
         $this->save();
-
-        return;
     }
 
     /**
      * ツイート詳細取得
      *
-     * @param Int $userId
-     * @param Int $tweetId
-     * @return void
+     * @param int $userId
+     * @param int $tweetId
+     * 
+     *     
+     * @return \Illuminate\Http\Response
      */
-    public function fetchTweetEdit(Int $userId, Int $tweetId)
+    public function fetchTweetEdit(int $userId, int $tweetId)
     {
         return $this->where('user_id', $userId)->where('id', $tweetId)->first();
     }
@@ -127,29 +126,28 @@ class Tweet extends Model
     /**
      * ツイートアップデート
      *
-     * @param Int $tweetId
-     * @param Array $data
-     * @return void
+     * @param int $tweetId
+     * @param array $data
+     * 
+     * @return　void
      */
-    public function updateTweet(Int $tweetId, Array $data)
+    public function updateTweet(int $tweetId, array $data) : void
     {
         $this->id = $tweetId;
         $this->text = $data['text'];
         $this->update();
-
-        return;
     }
 
     /**
      * ツイート削除
      *
-     * @param Int $userId
-     * @param Int $tweetId
-     * @return void
+     * @param int $userId
+     * @param int $tweetId
+     * 
+     * @return　void
      */
-    public function destroyTweet(Int $userId, Int $tweetId)
+    public function destroyTweet(int $userId, int $tweetId) : void
     {
-
-        return $this->where('user_id', $userId)->where('id', $tweetId)->delete();
+        $this->where('user_id', $userId)->where('id', $tweetId)->delete();
     }
 }

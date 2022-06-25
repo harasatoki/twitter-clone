@@ -11,11 +11,12 @@ class Favorite extends Model
     /**
      * いいね情報取得
      *
-     * @param Int $userId
-     * @param Int $tweetId
+     * @param int $userId
+     * @param int $tweetId
+     * 
      * @return boolean
      */
-    public function isFavorite(Int $userId, Int $tweetId)
+    public function isFavorite(int $userId, int $tweetId) : bool
     {
         return (boolean) $this->where('user_id', $userId)->where('tweet_id', $tweetId)->first();
     }
@@ -23,26 +24,26 @@ class Favorite extends Model
     /**
      * いいね情報保存
      *
-     * @param Int $userId
-     * @param Int $tweetId
+     * @param int $userId
+     * @param int $tweetId
+     * 
      * @return void
      */
-    public function storeFavorite(Int $userId, Int $tweetId)
+    public function storeFavorite(int $userId, int $tweetId) : void
     {
         $this->user_id = $userId;
         $this->tweet_id = $tweetId;
         $this->save();
-
-        return;
     }
 
     /**
      * いいね情報削除
      *
-     * @param Int $favoriteId
-     * @return void
+     * @param int $favoriteId
+     * 
+     * @return \Illuminate\Http\Response
      */
-    public function destroyFavorite(Int $favoriteId)
+    public function destroyFavorite(int $favoriteId)
     {
         return $this->where('id', $favoriteId)->delete();
     }
@@ -50,22 +51,24 @@ class Favorite extends Model
     /**
      * いいね情報取得
      *
-     * @param Int $userId
-     * @param Int $tweetId
-     * @return void
+     * @param int $userId
+     * @param int $tweetId
+     * 
+     * @return \Illuminate\Http\Response
      */
-    public function fetchFavorite(Int $userId, Int $tweetId){
+    public function fetchFavorite(int $userId, int $tweetId){
         return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->first();
     }
 
     /**
      * いいね数取得
      *
-     * @param Int $userId
-     * @param Int $tweetId
-     * @return void
+     * @param int $userId
+     * @param int $tweetId
+     * 
+     * @return int
      */
-    public function countFavorite(Int $userId, Int $tweetId){
+    public function countFavorite(int $userId, int $tweetId){
         return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->count();
     }
 }

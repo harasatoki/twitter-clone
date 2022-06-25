@@ -40,14 +40,9 @@ class FavoritesController extends Controller
      */
     public function destroy(Favorite $favorite, Request $request)
     {
-        // 変更
         $tweetId = $request->tweet_id;
         $userId = auth()->user()->id;
         $favoriteId=$favorite->fetchFavorite($userId,$tweetId)->id;
-
-        // $userId = $favorite->user_id;
-        // $tweetId = $favorite->tweet_id;
-        // $favoriteId = $favorite->id;
         $isFavorite = $favorite->isFavorite($userId, $tweetId);
 
         if($isFavorite) {

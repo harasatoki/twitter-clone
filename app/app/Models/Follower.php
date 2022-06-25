@@ -21,7 +21,8 @@ class Follower extends Model
      * フォローの数取得
      *
      * @param [type] $userId
-     * @return void
+     * 
+     * @return int
      */
     public function fetchFollowCount($userId)
     {
@@ -32,7 +33,8 @@ class Follower extends Model
      * フォロワーの数取得
      *
      * @param [type] $userId
-     * @return void
+     * 
+     * @return int
      */
     public function fetchFollowerCount($userId)
     {
@@ -42,10 +44,11 @@ class Follower extends Model
     /**
      * フォロワーのIDを取得
      *
-     * @param Int $userId
-     * @return void
+     * @param int $userId
+     * 
+     * @return array
      */
-    public function followedIds(Int $userId)
+    public function followedIds(int $userId)
     {
         return $this->where('following_id', $userId)->get('followed_id');
     }
