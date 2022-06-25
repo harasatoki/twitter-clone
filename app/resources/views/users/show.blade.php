@@ -1,13 +1,16 @@
 @extends('layouts.app')
 
+<link href="{{ asset('css/popup.css') }}" rel="stylesheet">
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8 mb-3">
+        <div class="col-md-8 mb-3" >
             <div class="card">
                 <div class="d-inline-flex">
                     <div class="p-3 d-flex flex-column">
-                        <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="100" height="100">
+                        <button class="show_pop">
+                            <i><img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle popup" width="100" height="100" alt="no image" id="popup"></i>
+                        </button>
                         <div class="mt-3 d-flex flex-column">
                             <h4 class="mb-0 font-weight-bold">{{ $user->name }}</h4>
                             <span class="text-secondary">{{ $user->screen_name }}</span>
@@ -35,7 +38,7 @@
                         </div>
                         <div class= "d-flex flex-row text-secondary">
                             <p><font size="3">
-                                <h4 class="font-weight-bold">{{ substr($user->created_at, 0,10)}}</h4>
+                                <h4 class="font-weight-bold">{{ substr($user->created_at, 0,10)}}からTwicloを利用しています</h4>
                             </font></p>
                         </div>
                         <div class="d-flex justify-content-end">
@@ -61,7 +64,9 @@
                 <div class="col-md-8 mb-3">
                     <div class="card">
                         <div class="card-haeder p-3 w-100 d-flex">
-                            <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                            <a href="#">
+                                <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                            </a>
                             <div class="ml-2 d-flex flex-column flex-grow-1">
                                 <p class="mb-0">{{ $timeline->user->name }}</p>
                                 <a href="{{route('users.show',$timeline->user->id) }}" class="text-secondary">{{ $timeline->user->screen_name }}</a>
@@ -91,7 +96,7 @@
                                 </div>
                             @endif
                             <div class="mr-3 d-flex align-items-center">
-                                <a href="#"><i class="far fa-comment fa-fw"></i></a>
+                                <a href="{{ route('tweets.show',$timeline->id )}}"><i class="far fa-comment fa-fw"></i></a>
                                 <p class="mb-0 text-secondary">{{ count($timeline->comments) }}</p>
                             </div>
                             <div class="d-flex align-items-center">
@@ -114,6 +119,15 @@
         {{ $timelines->links() }}
     </div>
 </div>
+<div class="modal_pop">
+    <div class="bg js-modal-close">
+        <button class=" close">×</button>
+    </div>
+    <div class="modal_pop_main">
+        <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" alt="no image" >
+    </div>
+</div>
 @endsection
 <script src="{{ asset('/js/follow.js') }}" defer></script>
 <script src="{{ asset('/js/favorite.js') }}" defer></script>
+<script src="{{ asset('/js/popup.js') }}" defer></script>

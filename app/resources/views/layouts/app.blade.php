@@ -39,8 +39,8 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand" href="{{ route('tweets.index')}}">
+                    Twiclo
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -72,7 +72,9 @@
                                 <a href="{{ route('tweets.create') }}" class="btn btn-md btn-primary">ツイートする</a>
                             </li>
                             <li class="nav-item">
-                                <img src="{{ asset('storage/profile_image/' .auth::user()->profile_image) }}" class="rounded-circle" width="50" height="50">
+                                <a href="{{ route('users.show',Auth::user()->id) }}">
+                                    <img src="{{ asset('storage/profile_image/' .auth::user()->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                                </a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -84,6 +86,12 @@
                                         onclick="event.preventDefault();
                                         document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
+                                    </a>
+                                    <a href="{{ route('users.index') }}" class="dropdown-item">
+                                        ユーザー覧
+                                    </a>
+                                    <a href="{{ route('tweets.index') }}" class="dropdown-item">
+                                        ツイート一覧
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
