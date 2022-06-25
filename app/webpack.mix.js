@@ -14,8 +14,9 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .sass('resources/sass/app.scss', 'public/css')
-    .js('resources/js/test.js', 'public/js')
     .js('resources/js/follow.js', 'public/js')
     .js('resources/js/favorite.js', 'public/js')
+    .js('resources/js/popup.js', 'public/js')
+    .postCss('resources/css/popup.css', 'public/css')
     ;
     
