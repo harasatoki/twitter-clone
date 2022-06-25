@@ -52,10 +52,26 @@ class Tweet extends Model
     }
     public function tweetStore(Int $userId, Array $data)
     {
-        $this->userId = $userId;
+        $this->user_id = $userId;
         $this->text = $data['text'];
         $this->save();
 
         return;
+    }
+    public function getEditTweet(Int $userId, Int $tweetId)
+    {
+        return $this->where('user_id', $userId)->where('id', $tweetId)->first();
+    }
+    public function tweetUpdate(Int $tweetId, Array $data)
+    {
+        $this->id = $tweetId;
+        $this->text = $data['text'];
+        $this->update();
+
+        return;
+    }
+    public function tweetDestroy(Int $userId, Int $tweetId)
+    {
+        return $this->where('user_id', $userId)->where('id', $tweetId)->delete();
     }
 }
