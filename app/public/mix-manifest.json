@@ -2,6 +2,6 @@
     "/js/app.js": "/js/app.js",
     "/js/test.js": "/js/test.js",
     "/js/follow.js": "/js/follow.js",
-    "/js/unfollow.js": "/js/unfollow.js",
+    "/js/favorite.js": "/js/favorite.js",
     "/css/app.css": "/css/app.css"
 }

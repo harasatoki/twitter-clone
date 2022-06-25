@@ -17,21 +17,40 @@ class Comment extends Model
     protected $fillable = [
         'text'
     ];
+
+    /**
+     * ユーザーリレーション
+     */
     public function user()
     {
         return $this->belongsTo(User::class);
     }
-    public function getComments(Int $tweetId)
+
+    /**
+     * コメント取得
+     *
+     * @param int $tweetId
+     * 
+     * @return array
+     */
+    public function fetchComments(int $tweetId)
     {
         return $this->with('user')->where('tweet_id', $tweetId)->get();
     }
-    public function commentStore(Int $userId, Array $data)
+
+    /**
+     * コメント保存
+     *
+     * @param int $userId
+     * @param array $data
+     * 
+     * @return void
+     */
+    public function commentStore(int $userId, array $commentData) : void
     {
         $this->user_id = $userId;
-        $this->tweet_id = $data['tweet_id'];
-        $this->text = $data['text'];
+        $this->tweet_id = $commentData['tweet_id'];
+        $this->text = $commentData['text'];
         $this->save();
-        return;
     }
-
 }

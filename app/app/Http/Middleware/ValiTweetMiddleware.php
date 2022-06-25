@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class ValiMiddleware
+class ValiTweetMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,8 +17,8 @@ class ValiMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $data = $request->all();
-        $_validator = Validator::make($data, [
+        $alldata = $request->all();
+        $_validator = Validator::make($alldata, [
             'text' => ['required', 'string', 'max:140']
         ]);
         $_validator->validate();

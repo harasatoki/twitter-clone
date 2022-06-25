@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use App\Models\User;
 use App\Models\Tweet;
 use App\Models\Follower;
@@ -14,15 +11,23 @@ use App\Http\Controllers\Controller;
 class UsersController extends Controller
 {
     /**
+     * バリデーション
+     */
+    public function __construct()
+    {
+        $this->middleware('valiUserMiddleware')->only(['update']);
+    }
+
+    /**
      * ユーザー一覧
      * 
-     *@param User $user
+     * @param User $user
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function index(User $user)
     {
-        $users = $user->getAllUsers(auth()->user()->id);
+        $users = $user->fetchAllUsers(auth()->user()->id);
 
         return view('users.index', [
             'users'  => $users
@@ -33,7 +38,8 @@ class UsersController extends Controller
      * フォロー機能
      *
      * @param Request $request
-     * @return void
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function follow(Request $request)
     {
@@ -55,7 +61,8 @@ class UsersController extends Controller
      * unfolow機能
      *
      * @param Request $request
-     * @return void
+     * 
+     * @return \Illuminate\Http\Response
      */
     public function unfollow(Request $request)
     {
@@ -71,45 +78,24 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * ユーザー詳細
      *
      * @param  User $user
      * @param Tweet $tweet
      * @param Follower $follower
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
-    public function show(User $user,Tweet $tweet, Follower $follower)
+    public function show(User $user, Tweet $tweet, Follower $follower)
     {
         $loginUser = auth()->user();
         $isFollowing = $loginUser->isFollowing($user->id);
         $isFollowed = $loginUser->isFollowed($user->id);
 
-        $timelines = $tweet->getUserTimeLine($user->id);
-        $tweetCount = $tweet->getTweetCount($user->id);
-        $followCount = $follower->getFollowCount($user->id);
-        $followerCount = $follower->getFollowerCount($user->id);
+        $timelines = $tweet->fetchUserTimeLine($user->id);
+        $tweetCount = $tweet->fetchTweetCount($user->id);
+        $followCount = $follower->fetchFollowCount($user->id);
+        $followerCount = $follower->fetchFollowerCount($user->id);
 
         return view('users.show', [
             'loginUser'  =>$loginUser,
@@ -128,7 +114,7 @@ class UsersController extends Controller
      *
      * @param  User $user
      * 
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View
      */
     public function edit(User $user)
     {
@@ -145,27 +131,9 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            'screenName'   => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],
-            'name'          => ['required', 'string', 'max:255'],
-            'profileImage' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'email'         => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)]
-        ]);
-        $validator->validate();
-        $user->updateProfile($data);
+        $userData = $request->all();
+        $user->updateProfile($userData);
 
         return redirect('users/'.$user->id);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

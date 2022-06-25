@@ -43,43 +43,92 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * フォロワーリレーション
+     */
     public function followers()
     {
         return $this->belongsToMany(self::class, 'followers', 'followed_id', 'following_id');
     }
 
+    /**
+     * フォローリレーション
+     */
+
     public function follows()
     {
         return $this->belongsToMany(self::class, 'followers', 'following_id', 'followed_id');
     }
-    public function getAllUsers(Int $userId)
+
+    /**
+     * 全ユーザーを取得
+     *
+     * @param int $userId
+     * 
+     * @return array
+     */
+    public function fetchAllUsers(int $userId)
     {
         return $this->Where('id', '<>', $userId)->paginate(5);
     }
-    // フォローする
-    public function follow(?Int $userId) 
+
+    /**
+     * フォローする
+     *
+     * @param int|null $userId
+     * 
+     * @return　void
+     */
+    public function follow(?int $userId) : void
     {
-        return $this->follows()->attach($userId);
+        $this->follows()->attach($userId);
     }
 
-    // フォロー解除する
-    public function unfollow(?Int $userId)
+    /**
+     * フォロー解除する
+     *
+     * @param int|null $userId
+     * 
+     * @return void
+     */
+    public function unfollow(?int $userId) : void
     {
-        return $this->follows()->detach($userId);
+        $this->follows()->detach($userId);
     }
 
-    // フォローしているか
-    public function isFollowing(?Int $userId) 
+    /**
+     * フォローしているか
+     *
+     * @param int|null $userId
+     * 
+     * @return boolean
+     */
+    public function isFollowing(?int $userId) 
     {
         return $this->follows()->where('followed_id', $userId)->exists();
     }
 
-    // フォローされているか
-    public function isFollowed(?Int $userId) 
+    /**
+     * フォローされているか
+     *
+     * @param int|null $userId
+     * 
+     * @return boolean
+     */
+    public function isFollowed(?int $userId) 
     {
         return $this->followers()->where('following_id', $userId)->exists();
     }
-    public function updateProfile(Array $params)
+
+    /**
+     * ユーザー情報の更新
+     *
+     * @param array $params
+     * 
+     * @return void
+     */
+    public function updateProfile(array $params) : void
     {
         if (isset($params['profile_image'])) {
             $fileName = $params['profile_image']->store('public/profile_image/');
@@ -98,7 +147,6 @@ class User extends Authenticatable
                     'name'          => $params['name'],
                     'email'         => $params['email'],
                 ]); 
-        return;
         }
     }
 }

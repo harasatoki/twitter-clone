@@ -7,23 +7,68 @@ use Illuminate\Database\Eloquent\Model;
 class Favorite extends Model
 {
     public $timestamps = false;
-    public function isFavorite(Int $userId, Int $tweetId) 
+
+    /**
+     * いいね情報取得
+     *
+     * @param int $userId
+     * @param int $tweetId
+     * 
+     * @return boolean
+     */
+    public function isFavorite(int $userId, int $tweetId) : bool
     {
         return (boolean) $this->where('user_id', $userId)->where('tweet_id', $tweetId)->first();
     }
-    public function storeFavorite(Int $userId, Int $tweetId)
+
+    /**
+     * いいね情報保存
+     *
+     * @param int $userId
+     * @param int $tweetId
+     * 
+     * @return void
+     */
+    public function storeFavorite(int $userId, int $tweetId) : void
     {
         $this->user_id = $userId;
         $this->tweet_id = $tweetId;
         $this->save();
+    }
 
-        return;
-    }
-    public function destroyFavorite(Int $favorite_id)
+    /**
+     * いいね情報削除
+     *
+     * @param int $favoriteId
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyFavorite(int $favoriteId)
     {
-        return $this->where('id', $favorite_id)->delete();
+        return $this->where('id', $favoriteId)->delete();
     }
-    public function fetchFavorite(Int $userId, Int $tweetId){
+
+    /**
+     * いいね情報取得
+     *
+     * @param int $userId
+     * @param int $tweetId
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function fetchFavorite(int $userId, int $tweetId){
         return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->first();
+    }
+
+    /**
+     * いいね数取得
+     *
+     * @param int $userId
+     * @param int $tweetId
+     * 
+     * @return int
+     */
+    public function countFavorite(int $userId, int $tweetId){
+        return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->count();
     }
 }

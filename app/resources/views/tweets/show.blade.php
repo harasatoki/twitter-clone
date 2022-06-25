@@ -41,21 +41,13 @@
                     </div>
                     <div class="d-flex align-items-center">
                         @if (!in_array($user->id, array_column($tweet->favorites->toArray(), 'user_id'), TRUE))
-                            <form method="POST" action="{{ route('favorites.store') }}" class="mb-0">
-                                @csrf
-
-                                <input type="hidden" name="tweet_id" value="{{ $tweet->id }}">
-                                <button type="submit" class="btn p-0 border-0 text-primary"><i class="far fa-heart fa-fw"></i></button>
-                            </form>
+                            <button class="btn p-0 border-0 text-primary favorite" id="favorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}"><i class="far fa-heart fa-fw" ></i></button>
+                            <button class="btn p-0 border-0 text-danger unfavorite" id="unfavorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}" style="display: none"><i class="fas fa-heart fa-fw"></i></button>
                         @else
-                            <form method="POST" action="{{ route('favorites.destroy', $favoriteId->id) }}" class="mb-0">
-                                @csrf
-                                @method('DELETE')
-
-                                <button type="submit" class="btn p-0 border-0 text-danger"><i class="fas fa-heart fa-fw"></i></button>
-                            </form>
+                        <button class="btn p-0 border-0 text-primary favorite" id="favorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}" style="display: none"><i class="far fa-heart fa-fw" ></i></button>
+                                    <button class="btn p-0 border-0 text-danger unfavorite" id="unfavorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}"><i class="fas fa-heart fa-fw"></i></button>
                         @endif
-                        <p class="mb-0 text-secondary">{{ count($tweet->favorites) }}</p>
+                        <p class="mb-0 text-secondary" id="favorite-count-{{ $tweet->id }}">{{ count($tweet->favorites) }}</p>
                     </div>
                 </div>
             </div>
@@ -128,3 +120,4 @@
     </div>
 </div>
 @endsection
+<script src="{{ asset('/js/favorite.js') }}" defer></script>

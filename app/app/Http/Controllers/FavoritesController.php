@@ -8,26 +8,6 @@ use App\Models\Favorite;
 class FavoritesController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * いいね情報の保存
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,7 +15,7 @@ class FavoritesController extends Controller
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,Favorite $favorite)
+    public function store(Request $request, Favorite $favorite)
     {
         $user = auth()->user();
         $tweetId = $request->tweet_id;
@@ -43,63 +23,33 @@ class FavoritesController extends Controller
 
         if(!$isFavorite) {
             $favorite->storeFavorite($user->id, $tweetId);
-            return back();
         }
-        return back();
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+        $countFavorite=$favorite->countFavorite($user->id, $tweetId);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return response()->json(['countFavorite'=>$countFavorite]);
     }
 
     /**
      * いいね情報の削除
      *
      * @param  Favorite $favorite
-     * 
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Favorite $favorite)
+    public function destroy(Favorite $favorite, Request $request)
     {
-        $userId = $favorite->user_id;
-        $tweetId = $favorite->tweet_id;
-        $favoriteId = $favorite->id;
+        $tweetId = $request->tweet_id;
+        $userId = auth()->user()->id;
+        $favoriteId=$favorite->fetchFavorite($userId,$tweetId)->id;
         $isFavorite = $favorite->isFavorite($userId, $tweetId);
 
         if($isFavorite) {
             $favorite->destroyFavorite($favoriteId);
-            return back();
         }
-        return back();
+        $countFavorite=$favorite->countFavorite($userId, $tweetId);
+
+        return response()->json(['countFavorite'=>$countFavorite]);
     }
 }
