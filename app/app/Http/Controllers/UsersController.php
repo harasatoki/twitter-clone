@@ -81,7 +81,6 @@ class UsersController extends Controller
      */
     public function show(User $user,Tweet $tweet, Follower $follower)
     {
-        //
         $loginUser = auth()->user();
         $isFollowing = $loginUser->isFollowing($user->id);
         $isFollowed = $loginUser->isFollowed($user->id);
@@ -109,7 +108,6 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        //
         return view('users.edit', ['user' => $user]);
     }
 
@@ -122,7 +120,6 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
         $data = $request->all();
         $validator = Validator::make($data, [
             'screenName'   => ['required', 'string', 'max:50', Rule::unique('users')->ignore($user->id)],

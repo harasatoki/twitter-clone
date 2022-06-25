@@ -50,4 +50,12 @@ class Tweet extends Model
     {
         return $this->with('user')->where('id', $tweetId)->first();
     }
+    public function tweetStore(Int $userId, Array $data)
+    {
+        $this->userId = $userId;
+        $this->text = $data['text'];
+        $this->save();
+
+        return;
+    }
 }
