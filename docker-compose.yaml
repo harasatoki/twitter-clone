@@ -6,7 +6,6 @@ services:
       - 80:80
     volumes:
       - ./app:/var/www/app
-      - ./000-default.conf:/etc/apache2/sites-available/000-default.conf
     working_dir: /var/www/app
   db:
     platform: linux/x86_64

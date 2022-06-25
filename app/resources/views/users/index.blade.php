@@ -5,36 +5,33 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 @foreach ($users as $user)
+                <?php $i=0?>
                     <div class="card">
                         <div class="card-haeder p-3 w-100 d-flex">
                             <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
                             <div class="ml-2 d-flex flex-column">
                                 <p class="mb-0">{{ $user->name }}</p>
-                                <a href="{{ url('users/' .$user->id) }}" class="text-secondary">{{ $user->screen_name }}</a>
+                                <a href="{{ route('users.show',$user->id)}}" class="text-secondary">{{ $user->screen_name }}</a>
                             </div>
                             @if (auth()->user()->isFollowed($user->id))
                                 <div class="px-2">
                                     <span class="px-1 bg-secondary text-light">フォローされています</span>
                                 </div>
                             @endif
-                            <div class="d-flex justify-content-end flex-grow-1">
+                            <div class="d-flex justify-content-end flex-grow-1 setid" data-user="{{ $user->id }}">
                                 @if (auth()->user()->isFollowing($user->id))
-                                    <form action="{{ route('unfollow', ['id' => $user->id]) }}" method="POST">
-                                    @csrf
-                                        {{ method_field('DELETE') }}
-
-                                        <button type="submit" class="btn btn-danger">フォロー解除</button>
-                                    </form>
+                                    <button class="btn btn-danger unfollow" id="unfollow-{{ $user->id }}"  data-id="{{ $user->id }}">フォロー解除</button>
+                                    <button class="btn btn-primary follow" id="follow-{{ $user->id }}"  data-id="{{ $user->id }}"　style="display:none">フォローする</button>
                                 @else
-                                    <form action="{{ route('follow', ['id' => $user->id]) }}" method="POST">
-                                    @csrf
-
-                                        <button type="submit" class="btn btn-primary">フォローする</button>
-                                    </form>
+                                    <button class="btn btn-danger unfollow" id="unfollow-{{ $user->id }}"  data-id="{{ $user->id }}" style="display:none">フォロー解除</button>
+                                    <button class="btn btn-primary follow" id="follow-{{ $user->id }}"  data-id="{{ $user->id }}">フォローする</button>
                                 @endif
+
+                                
                             </div>
                         </div>
                     </div>
+                    <?php $i+=1?>
                 @endforeach
             </div>
         </div>
@@ -43,3 +40,5 @@
         </div>
     </div>
 @endsection
+<script src="{{ asset('/js/follow.js') }}" defer></script>
+{{-- <script src="{{ asset('/js/unfollow.js') }}" defer></script> --}}

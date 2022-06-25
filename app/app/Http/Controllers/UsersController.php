@@ -14,7 +14,9 @@ use App\Http\Controllers\Controller;
 class UsersController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * ユーザー一覧
+     * 
+     *@param User $user
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,29 +29,45 @@ class UsersController extends Controller
         ]);
     }
     // フォロー
-    public function follow(Request $request,User $user)
+    /**
+     * フォロー機能
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function follow(Request $request)
     {
         $follower = auth()->user();
+        
         // フォローしているか
         $isFollowing = $follower->isFollowing($request->input('id'));
+
         if(!$isFollowing) {
             // フォローしていなければフォローする
             $follower->follow($request->input('id'));
-            return back();
         }
+
+        return response()->json();
     }
 
     // フォロー解除
-    public function unfollow(Request $request,User $user)
+    /**
+     * unfolow機能
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function unfollow(Request $request)
     {
         $follower = auth()->user();
         // フォローしているか
         $isFollowing = $follower->isFollowing($request->input('id'));
+
         if($isFollowing) {
             // フォローしていればフォローを解除する
             $follower->unfollow($request->input('id'));
-            return back();
         }
+        return response()->json();
     }
 
     /**
@@ -74,9 +92,12 @@ class UsersController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * ユーザー詳細
      *
-     * @param  int  $id
+     * @param  User $user
+     * @param Tweet $tweet
+     * @param Follower $follower
+     * 
      * @return \Illuminate\Http\Response
      */
     public function show(User $user,Tweet $tweet, Follower $follower)
@@ -84,12 +105,14 @@ class UsersController extends Controller
         $loginUser = auth()->user();
         $isFollowing = $loginUser->isFollowing($user->id);
         $isFollowed = $loginUser->isFollowed($user->id);
+
         $timelines = $tweet->getUserTimeLine($user->id);
         $tweetCount = $tweet->getTweetCount($user->id);
         $followCount = $follower->getFollowCount($user->id);
         $followerCount = $follower->getFollowerCount($user->id);
 
         return view('users.show', [
+            'loginUser'  =>$loginUser,
             'user'           => $user,
             'isFollowing'   => $isFollowing,
             'isFollowed'    => $isFollowed,
@@ -101,9 +124,10 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * ユーザー編集
      *
-     * @param  int  $id
+     * @param  User $user
+     * 
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -115,7 +139,8 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  User $user
+     * 
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, User $user)

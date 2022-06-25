@@ -23,4 +23,7 @@ class Favorite extends Model
     {
         return $this->where('id', $favorite_id)->delete();
     }
+    public function fetchFavorite(Int $userId, Int $tweetId){
+        return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->first();
+    }
 }

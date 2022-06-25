@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Tweet;
 use App\Models\Comment;
 use App\Models\Follower;
-
+use App\Models\Favorite;
 class TweetsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('valiMiddleware')->only(['store','update']);
+    }
     /**
-     * Display a listing of the resource.
+     *ツイート一覧
      *
+     * @param Follower $follower
+     * @param Tweet $tweet
+     * 
      * @return \Illuminate\Http\Response
      */
     public function index(Tweet $tweet, Follower $follower)
@@ -21,8 +27,8 @@ class TweetsController extends Controller
         $followIds = $follower->followingIds($user->id);
         // followed_idだけ抜き出す
         $followingIds = $followIds->pluck('followed_id')->toArray();
-
         $timelines = $tweet->getTimelines($user->id, $followingIds);
+
         return view('tweets.index', [
             'user'      => $user,
             'timelines' => $timelines
@@ -30,7 +36,7 @@ class TweetsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     *ツイート作成画面
      *
      * @return \Illuminate\Http\Response
      */
@@ -44,54 +50,57 @@ class TweetsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     *ツイート内容の保存
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  Tweet $tweet
+     * 
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request,Tweet $tweet)
     {
         $user = auth()->user();
         $data = $request->all();
-        $validator = Validator::make($data, [
-            'text' => ['required', 'string', 'max:140']
-        ]);
-
-        $validator->validate();
         $tweet->tweetStore($user->id, $data);
 
         return redirect('tweets');
     }
 
     /**
-     * Display the specified resource.
+     *ツイートツリー表示
      *
-     * @param  int  $id
+     * @param 　Tweet  $tweet
+     * @param  Comment  $comment
+     * @param  Favorite $favorite
+     * 
      * @return \Illuminate\Http\Response
      */
-    public function show(Tweet $tweet, Comment $comment)
+    public function show(Tweet $tweet, Comment $comment,Favorite $favorite)
     {
         $user = auth()->user();
         $tweet = $tweet->getTweet($tweet->id);
         $comments = $comment->getComments($tweet->id);
+        $favoriteId=$favorite->fetchFavorite($user->id,$tweet->id);
 
         return view('tweets.show', [
             'user'     => $user,
             'tweet' => $tweet,
-            'comments' => $comments
+            'comments' => $comments,
+            'favoriteId'=>$favoriteId
         ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     *ツイート編集画面
      *
-     * @param  int  $id
+     * @param  Tweet  $tweet
+     * 
      * @return \Illuminate\Http\Response
      */
     public function edit(Tweet $tweet)
     {
         $user = auth()->user();
-        $tweets = $tweet->getEditTweet($user->id, $tweet->id);
+        $tweets = $tweet->getTweetEdit($user->id, $tweet->id);
 
         if (!isset($tweets)) {
             return redirect('tweets');
@@ -104,29 +113,25 @@ class TweetsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     *編集の適用
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Tweet  $tweet
+     * 
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tweet $tweet)
+    public function update(Tweet $tweet)
     {
-        $data = $request->all();
-        $validator = Validator::make($data, [
-            'text' => ['required', 'string', 'max:140']
-        ]);
-
-        $validator->validate();
         $tweet->tweetUpdate($tweet->id, $data);
 
         return redirect('tweets');
     }
 
     /**
-     * Remove the specified resource from storage.
+     *ツイート削除
      *
-     * @param  int  $id
+     * @param  Tweet  $tweet
+     * 
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request,Tweet $tweet)
@@ -134,6 +139,6 @@ class TweetsController extends Controller
         $user = auth()->user();
         $tweet->tweetDestroy($user->id, $request->input('tweetId'));
 
-        return redirect('tweets');
+        return back();
     }
 }
