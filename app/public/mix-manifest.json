@@ -1,7 +1,8 @@
 {
     "/js/app.js": "/js/app.js",
-    "/js/test.js": "/js/test.js",
     "/js/follow.js": "/js/follow.js",
     "/js/favorite.js": "/js/favorite.js",
-    "/css/app.css": "/css/app.css"
+    "/js/popup.js": "/js/popup.js",
+    "/css/app.css": "/css/app.css",
+    "/css/popup.css": "/css/popup.css"
 }

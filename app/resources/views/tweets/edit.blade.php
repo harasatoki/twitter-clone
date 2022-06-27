@@ -13,7 +13,9 @@
 
                         <div class="form-group row mb-0">
                             <div class="col-md-12 p-3 w-100 d-flex">
-                                <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                                <a href="{{ route('users.show',$user->id) }}">
+                                    <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                                </a>
                                 <div class="ml-2 d-flex flex-column">
                                     <p class="mb-0">{{ $user->name }}</p>
                                     <a href="{{ route('users.show',[$user->id] )}}" class="text-secondary">{{ $user->screen_name }}</a>

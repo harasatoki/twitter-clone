@@ -6,7 +6,9 @@
         <div class="col-md-8 mb-3">
             <div class="card">
                 <div class="card-haeder p-3 w-100 d-flex">
-                    <img src="{{ asset('storage/profile_image/' .$tweet->user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                    <a href="{{ route('users.show',$tweet->user->id) }}">
+                        <img src="{{ asset('storage/profile_image/' .$tweet->user->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                    </a>
                     <div class="ml-2 d-flex flex-column">
                         <p class="mb-0">{{ $tweet->user->name }}</p>
                         <a href="{{ route('users.show' ,[$tweet->user->id]) }}" class="text-secondary">{{ $tweet->user->screen_name }}</a>
@@ -25,7 +27,7 @@
                                 <i class="fas fa-ellipsis-v fa-fw"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
-                                <form method="POST" action="{{ route('tweets.destroy', ['favoriteId'=>$tweet->id]) }}" class="mb-0">
+                                <form method="POST" action="{{ route('tweets.destroy', ['tweetId'=>$tweet->id]) }}" class="mb-0">
                                     @csrf
                                     @method('DELETE')
 
@@ -44,8 +46,8 @@
                             <button class="btn p-0 border-0 text-primary favorite" id="favorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}"><i class="far fa-heart fa-fw" ></i></button>
                             <button class="btn p-0 border-0 text-danger unfavorite" id="unfavorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}" style="display: none"><i class="fas fa-heart fa-fw"></i></button>
                         @else
-                        <button class="btn p-0 border-0 text-primary favorite" id="favorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}" style="display: none"><i class="far fa-heart fa-fw" ></i></button>
-                                    <button class="btn p-0 border-0 text-danger unfavorite" id="unfavorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}"><i class="fas fa-heart fa-fw"></i></button>
+                            <button class="btn p-0 border-0 text-primary favorite" id="favorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}" style="display: none"><i class="far fa-heart fa-fw" ></i></button>
+                            <button class="btn p-0 border-0 text-danger unfavorite" id="unfavorite-{{ $tweet->id }}" data-tweetid="{{ $tweet->id }}"><i class="fas fa-heart fa-fw"></i></button>
                         @endif
                         <p class="mb-0 text-secondary" id="favorite-count-{{ $tweet->id }}">{{ count($tweet->favorites) }}</p>
                     </div>
@@ -60,7 +62,9 @@
                 @forelse ($comments as $comment)
                     <li class="list-group-item">
                         <div class="py-3 w-100 d-flex">
-                            <img src="{{ asset('storage/profile_image/' .$comment->user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                            <a href="{{ route('users.show',$comment->user->id) }}">
+                                <img src="{{ asset('storage/profile_image/' .$comment->user->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                            </a>
                             <div class="ml-2 d-flex flex-column">
                                 <p class="mb-0">{{ $comment->user->name }}</p>
                                 <a href="{{ route('users.show' ,[$comment->user->id]) }}" class="text-secondary">{{ $comment->user->screen_name }}</a>
@@ -85,7 +89,9 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-12 p-3 w-100 d-flex">
-                                    <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                                    <a href="{{ route('users.show',$user->id) }}">
+                                        <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                                    </a>
                                     <div class="ml-2 d-flex flex-column">
                                         <p class="mb-0">{{ $user->name }}</p>
                                         <a href="{{ route('users.show' ,[$user->id]) }}" class="text-secondary">{{ $user->screen_name }}</a>

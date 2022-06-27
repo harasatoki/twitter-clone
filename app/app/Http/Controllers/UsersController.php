@@ -15,7 +15,7 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('valiUserMiddleware')->only(['update']);
+        $this->middleware('valiUserMiddleware')->only( ['update'] );
     }
 
     /**
@@ -27,10 +27,10 @@ class UsersController extends Controller
      */
     public function index(User $user)
     {
-        $users = $user->fetchAllUsers(auth()->user()->id);
+        $users = $user->fetchAllUsers(auth()->id());
 
         return view('users.index', [
-            'users'  => $users
+            'users' => $users
         ]);
     }
     // フォロー
@@ -46,11 +46,11 @@ class UsersController extends Controller
         $follower = auth()->user();
         
         // フォローしているか
-        $isFollowing = $follower->isFollowing($request->input('id'));
+        $isFollowing = $follower->isFollowing( $request->input('id') );
 
         if(!$isFollowing) {
             // フォローしていなければフォローする
-            $follower->follow($request->input('id'));
+            $follower->follow( $request->input('id') );
         }
 
         return response()->json();
@@ -68,11 +68,11 @@ class UsersController extends Controller
     {
         $follower = auth()->user();
         // フォローしているか
-        $isFollowing = $follower->isFollowing($request->input('id'));
+        $isFollowing = $follower->isFollowing( $request->input('id') );
 
-        if($isFollowing) {
+        if( $isFollowing ) {
             // フォローしていればフォローを解除する
-            $follower->unfollow($request->input('id'));
+            $follower->unfollow( $request->input('id') );
         }
         return response()->json();
     }
@@ -99,12 +99,12 @@ class UsersController extends Controller
 
         return view('users.show', [
             'loginUser'  =>$loginUser,
-            'user'           => $user,
-            'isFollowing'   => $isFollowing,
-            'isFollowed'    => $isFollowed,
-            'timelines'      => $timelines,
-            'tweetCount'    => $tweetCount,
-            'followCount'   => $followCount,
+            'user' => $user,
+            'isFollowing' => $isFollowing,
+            'isFollowed' => $isFollowed,
+            'timelines' => $timelines,
+            'tweetCount' => $tweetCount,
+            'followCount' => $followCount,
             'followerCount' => $followerCount
         ]);
     }
@@ -132,8 +132,8 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         $userData = $request->all();
-        $user->updateProfile($userData);
+        $user->updateProfile( $userData );
 
-        return redirect('users/'.$user->id);
+        return redirect( 'users/'.$user->id );
     }
 }

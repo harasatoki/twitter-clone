@@ -63,8 +63,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'valiTweetMiddleware' => \App\Http\Middleware\ValiTweetMiddleware::class,
-        'valiCommentMiddleware' => \App\Http\Middleware\ValiCommentMiddleware::class,
-        'valiUserMiddleware' => \App\Http\Middleware\ValiUserMiddleware::class
+        'validateTweetMiddleware' => \App\Http\Middleware\ValidateTweetMiddleware::class,
+        'validateCommentMiddleware' => \App\Http\Middleware\ValidateCommentMiddleware::class,
+        'validateUserMiddleware' => \App\Http\Middleware\ValidateUserMiddleware::class
     ];
 }

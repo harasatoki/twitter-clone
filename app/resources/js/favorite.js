@@ -3,8 +3,8 @@ jQuery(document).ready(function () {
         let $this=$(this)
         tweetId=$this.data('tweetid')
         $.ajax({
-            type: "post", //HTTP通信の種類
-            url:'/favorites/store', //通信したいURL
+            type: "post", 
+            url:'/favorites/store', 
             dataType: 'json',
             data:{
                 "tweet_id":tweetId
@@ -25,8 +25,8 @@ jQuery(document).ready(function () {
         let $this=$(this)
         tweetId=$this.data('tweetid')
         $.ajax({
-            type: "delete", //HTTP通信の種類
-            url:'/favorites/destroy', //通信したいURL
+            type: "delete", 
+            url:'/favorites/destroy', 
             dataType: 'json',
             data:{
                 'tweet_id':tweetId,

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Tweet;
 use App\Models\Comment;
 use App\Models\Follower;
-use App\Models\Favorite;
 class TweetsController extends Controller
 {
     /**
@@ -28,13 +27,12 @@ class TweetsController extends Controller
     public function index(Tweet $tweet, Follower $follower)
     {
         $user = auth()->user();
-        $followIds = $follower->followedIds($user->id);
-        // followed_idだけ抜き出す
+        $followIds = $follower->fetchFollowedIds($user->id);
         $followedIds = $followIds->pluck('followed_id')->toArray();
         $timelines = $tweet->fetchTimelines($user->id, $followedIds);
 
         return view('tweets.index', [
-            'user'      => $user,
+            'user' => $user,
             'timelines' => $timelines
         ]);
     }
@@ -63,9 +61,9 @@ class TweetsController extends Controller
      */
     public function store(Request $request, Tweet $tweet)
     {
-        $user = auth()->user();
+        $userId = auth()->id();
         $tweetData = $request->all();
-        $tweet->storeTweet($user->id, $tweetData);
+        $tweet->storeTweet($userId, $tweetData);
 
         return redirect('tweets');
     }
@@ -75,22 +73,19 @@ class TweetsController extends Controller
      *
      * @param 　Tweet  $tweet
      * @param  Comment  $comment
-     * @param  Favorite $favorite
      * 
      * @return \Illuminate\View\View
      */
-    public function show(Tweet $tweet, Comment $comment, Favorite $favorite)
+    public function show(Tweet $tweet, Comment $comment)
     {
         $user = auth()->user();
         $tweet = $tweet->fetchTweet($tweet->id);
         $comments = $comment->fetchComments($tweet->id);
-        $favoriteId=$favorite->fetchFavorite($user->id,$tweet->id);
 
         return view('tweets.show', [
-            'user'     => $user,
+            'user' => $user,
             'tweet' => $tweet,
             'comments' => $comments,
-            'favoriteId'=>$favoriteId
         ]);
     }
 
@@ -106,12 +101,12 @@ class TweetsController extends Controller
         $user = auth()->user();
         $tweets = $tweet->fetchTweetEdit($user->id, $tweet->id);
 
-        if (!isset($tweets)) {
+        if ( !isset($tweets) ) {
             return redirect('tweets');
         }
 
         return view('tweets.edit', [
-            'user'   => $user,
+            'user' => $user,
             'tweets' => $tweets
         ]);
     }
@@ -141,8 +136,8 @@ class TweetsController extends Controller
      */
     public function destroy(Request $request, Tweet $tweet)
     {
-        $user = auth()->user();
-        $tweet->destroyTweet($user->id, $request->input('tweetId'));
+        $userId = auth()->id();
+        $tweet->destroyTweet($userId, $request->input('tweetId'));
 
         return redirect('tweets');
     }
