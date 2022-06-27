@@ -52,7 +52,7 @@
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">フォロワー数</p>
-                                <span>{{ $followerCount }}</span>
+                                <span id="followerCount">{{ $followerCount }}</span>
                             </div>
                         </div>
                     </div>

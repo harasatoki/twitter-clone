@@ -7,7 +7,7 @@ jQuery(document).ready(function () {
             url:'/users/follow',
             dataType: 'json',
             data:{
-                "id":userId
+                "userId":userId
             },
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -16,6 +16,9 @@ jQuery(document).ready(function () {
         .done((res)=>{
             document.getElementById('follow-'+userId).style.display = 'none'
             document.getElementById('unfollow-'+userId).style.display = 'inline'
+            if(document.getElementById('followerCount') != null){
+                document.getElementById('followerCount').innerHTML = res['followerCount']
+            }
         })
         .fail((error)=>{
         })
@@ -28,7 +31,7 @@ jQuery(document).ready(function () {
             url:'/users/unfollow', 
             dataType: 'json',
             data:{
-                'id':userId,
+                'userId':userId,
                 '_method': 'DELETE'
             },
             headers: {
@@ -38,6 +41,9 @@ jQuery(document).ready(function () {
         .done((res)=>{
             document.getElementById('follow-'+userId).style.display = 'inline'
             document.getElementById('unfollow-'+userId).style.display = 'none'
+            if(document.getElementById('followerCount') != null){
+                document.getElementById('followerCount').innerHTML = res['followerCount']
+            }
         })
         .fail((error)=>{
         })
