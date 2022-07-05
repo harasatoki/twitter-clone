@@ -33,7 +33,7 @@ class UsersController extends Controller
             'users' => $users
         ]);
     }
-    // フォロー
+
     /**
      * フォロー機能
      *
@@ -56,7 +56,6 @@ class UsersController extends Controller
         return response()->json(['followerCount'=>$followerCount]);
     }
 
-    // フォロー解除
     /**
      * unfolow機能
      *
