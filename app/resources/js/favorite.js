@@ -19,6 +19,7 @@ jQuery(document).ready(function () {
             document.getElementById('favorite-count-'+tweetId).innerHTML =res['countFavorite']
         })
         .fail((error)=>{
+            alert("通信に失敗しました")
         })
     });
     $('.unfavorite').on('click',function(){
@@ -42,6 +43,7 @@ jQuery(document).ready(function () {
             document.getElementById('favorite-count-'+tweetId).innerHTML = res['countFavorite']
         })
         .fail((error)=>{
+            alert("通信に失敗しました")
         })
     });
 });

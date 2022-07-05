@@ -1,4 +1,4 @@
-(() => { 
+(() => {
 var __webpack_exports__ = {};
 jQuery(document).ready(function () {
   $('.favorite').on('click', function () {
@@ -18,7 +18,9 @@ jQuery(document).ready(function () {
       document.getElementById('favorite-' + tweetId).style.display = 'none';
       document.getElementById('unfavorite-' + tweetId).style.display = 'inline';
       document.getElementById('favorite-count-' + tweetId).innerHTML = res['countFavorite'];
-    }).fail(function (error) {});
+    }).fail(function (error) {
+      alert("通信に失敗しました");
+    });
   });
   $('.unfavorite').on('click', function () {
     var $this = $(this);
@@ -38,7 +40,9 @@ jQuery(document).ready(function () {
       document.getElementById('favorite-' + tweetId).style.display = 'inline';
       document.getElementById('unfavorite-' + tweetId).style.display = 'none';
       document.getElementById('favorite-count-' + tweetId).innerHTML = res['countFavorite'];
-    }).fail(function (error) {});
+    }).fail(function (error) {
+      alert("通信に失敗しました");
+    });
   });
 });
 })()

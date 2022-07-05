@@ -21,6 +21,7 @@ jQuery(document).ready(function () {
             }
         })
         .fail((error)=>{
+            alert("通信に失敗しました")
         })
     });
     $('.unfollow').on('click',function(){
@@ -46,6 +47,7 @@ jQuery(document).ready(function () {
             }
         })
         .fail((error)=>{
+            alert("通信に失敗しました")
         })
     });
 });

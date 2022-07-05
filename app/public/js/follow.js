@@ -1,4 +1,4 @@
-(() => { 
+(() => {
 var __webpack_exports__ = {};
 jQuery(document).ready(function () {
   $('.follow').on('click', function () {
@@ -21,7 +21,9 @@ jQuery(document).ready(function () {
       if (document.getElementById('followerCount') != null) {
         document.getElementById('followerCount').innerHTML = res['followerCount'];
       }
-    }).fail(function (error) {});
+    }).fail(function (error) {
+      alert("通信に失敗しました");
+    });
   });
   $('.unfollow').on('click', function () {
     var $this = $(this);
@@ -44,7 +46,9 @@ jQuery(document).ready(function () {
       if (document.getElementById('followerCount') != null) {
         document.getElementById('followerCount').innerHTML = res['followerCount'];
       }
-    }).fail(function (error) {});
+    }).fail(function (error) {
+      alert("通信に失敗しました");
+    });
   });
 });
 })()
