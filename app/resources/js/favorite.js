@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
             document.getElementById('favorite-count-'+tweetId).innerHTML =res['countFavorite']
         })
         .fail((error)=>{
-            alert("通信に失敗しました")
+            alert("ツイートのいいね機能の通信に失敗しました\n通信環境、データ通信の許可設定、セキュリティの確認をしてください")
         })
     });
     $('.unfavorite').on('click',function(){
@@ -43,7 +43,7 @@ jQuery(document).ready(function () {
             document.getElementById('favorite-count-'+tweetId).innerHTML = res['countFavorite']
         })
         .fail((error)=>{
-            alert("通信に失敗しました")
+            alert("ツイートのいいね機能削除の通信に失敗しました\n通信環境、データ通信の許可設定、セキュリティの確認をしてください")
         })
     });
 });

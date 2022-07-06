@@ -19,7 +19,7 @@ jQuery(document).ready(function () {
       document.getElementById('unfavorite-' + tweetId).style.display = 'inline';
       document.getElementById('favorite-count-' + tweetId).innerHTML = res['countFavorite'];
     }).fail(function (error) {
-      alert("通信に失敗しました");
+      alert("ツイートのいいね機能の通信に失敗しました\n通信環境、データ通信の許可設定、セキュリティの確認をしてください");
     });
   });
   $('.unfavorite').on('click', function () {
@@ -41,7 +41,7 @@ jQuery(document).ready(function () {
       document.getElementById('unfavorite-' + tweetId).style.display = 'none';
       document.getElementById('favorite-count-' + tweetId).innerHTML = res['countFavorite'];
     }).fail(function (error) {
-      alert("通信に失敗しました");
+      alert("ツイートのいいね機能削除の通信に失敗しました\n通信環境、データ通信の許可設定、セキュリティの確認をしてください");
     });
   });
 });

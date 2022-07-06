@@ -21,7 +21,7 @@ jQuery(document).ready(function () {
             }
         })
         .fail((error)=>{
-            alert("通信に失敗しました")
+            alert("ユーザーフォローの通信に失敗しました\n通信環境、データ通信の許可設定、セキュリティの確認をしてください")
         })
     });
     $('.unfollow').on('click',function(){
@@ -47,7 +47,7 @@ jQuery(document).ready(function () {
             }
         })
         .fail((error)=>{
-            alert("通信に失敗しました")
+            alert("ユーザーフォロー削除の通信に失敗しました\n通信環境、データ通信の許可設定、セキュリティの確認をしてください")
         })
     });
 });
