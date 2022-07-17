@@ -47,11 +47,15 @@
                                 <span>{{ $tweetCount }}</span>
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
-                                <p class="font-weight-bold">フォロー数</p>
+                                <a href="{{ route('users.following',$user->id) }}">
+                                    <p class="font-weight-bold">フォロー数</p>
+                                </a>
                                 <span>{{ $followCount }}</span>
                             </div>
                             <div class="p-2 d-flex flex-column align-items-center">
-                                <p class="font-weight-bold">フォロワー数</p>
+                                <a href="{{ route('users.follower',$user->id) }}">
+                                    <p class="font-weight-bold">フォロワー数</p>
+                                </a>
                                 <span id="followerCount">{{ $followerCount }}</span>
                             </div>
                         </div>

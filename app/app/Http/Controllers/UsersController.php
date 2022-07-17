@@ -15,7 +15,7 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('valiUserMiddleware')->only( ['update'] );
+        $this->middleware('validateUserMiddleware')->only( ['update'] );
     }
 
     /**
@@ -31,6 +31,50 @@ class UsersController extends Controller
 
         return view('users.index', [
             'users' => $users
+        ]);
+    }
+
+    /**
+     * フォロー一覧
+     * 
+     * @param User $user
+     * @param Follower $follower
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function following(User $user, Follower $follower)
+    {
+        $followingIds = $follower->fetchfollowingIds($user->id);
+        $followingUsers=collect([]);
+        foreach($followingIds as $followingId){
+            $followingUsers=$followingUsers->concat([$user->fetchUser($followingId->followed_id)]);
+        };
+        
+        return view('users.following',[
+            'followingUsers' => $followingUsers,
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * フォロワー一覧
+     * 
+     * @param User $user
+     * @param Follower $follower
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function follower(User $user, Follower $follower)
+    {
+        $followerIds = $follower->fetchfollowerIds($user->id);
+        $followerUsers=collect([]);
+        foreach($followerIds as $followerId){
+            $followerUsers=$followerUsers->concat([$user->fetchUser($followerId->following_id)]);
+        };
+        
+        return view('users.follower',[
+            'followerUsers' => $followerUsers,
+            'user' => $user
         ]);
     }
 
@@ -119,7 +163,11 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', ['user' => $user]);
+        if($user->id == auth()->id()){
+            return view('users.edit', ['user' => $user]);
+        }else{
+            return back();
+        }
     }
 
     /**

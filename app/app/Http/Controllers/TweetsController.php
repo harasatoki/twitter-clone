@@ -13,7 +13,7 @@ class TweetsController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('valiTweetMiddleware')->only(['store','update']);
+        $this->middleware('validateTweetMiddleware')->only(['store','update']);
     }
 
     /**

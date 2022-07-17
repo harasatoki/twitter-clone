@@ -149,4 +149,15 @@ class User extends Authenticatable
                 ]); 
         }
     }
+
+    /**
+     * idからユーザー情報を取得
+     * 
+     * @param  int $userId
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function fetchUser($userId){
+        return $this->Where('id',$userId)->first();
+    }
 }

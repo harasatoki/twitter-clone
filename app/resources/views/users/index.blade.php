@@ -27,8 +27,6 @@
                                     <button class="btn btn-danger unfollow" id="unfollow-{{ $user->id }}"  data-id="{{ $user->id }}" style="display:none">フォロー解除</button>
                                     <button class="btn btn-primary follow" id="follow-{{ $user->id }}"  data-id="{{ $user->id }}">フォローする</button>
                                 @endif
-
-                                
                             </div>
                         </div>
                     </div>
