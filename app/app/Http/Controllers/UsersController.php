@@ -45,9 +45,9 @@ class UsersController extends Controller
     public function following(User $user, Follower $follower)
     {
         $followingIds = $follower->fetchfollowingIds($user->id);
-        $followingUsers=collect([]);
-        foreach($followingIds as $followingId){
-            $followingUsers=$followingUsers->concat([$user->fetchUser($followingId->followed_id)]);
+        $followingUsers = collect([]);
+        foreach( $followingIds as $followingId ){
+            $followingUsers = $followingUsers->concat([$user->fetchUser($followingId->followed_id)]);
         };
         
         return view('users.following',[
@@ -67,9 +67,9 @@ class UsersController extends Controller
     public function follower(User $user, Follower $follower)
     {
         $followerIds = $follower->fetchfollowerIds($user->id);
-        $followerUsers=collect([]);
-        foreach($followerIds as $followerId){
-            $followerUsers=$followerUsers->concat([$user->fetchUser($followerId->following_id)]);
+        $followerUsers = collect([]);
+        foreach( $followerIds as $followerId ){
+            $followerUsers = $followerUsers->concat([$user->fetchUser($followerId->following_id)]);
         };
         
         return view('users.follower',[
