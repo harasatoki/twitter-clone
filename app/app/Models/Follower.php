@@ -46,10 +46,35 @@ class Follower extends Model
      *
      * @param int $userId
      * 
-     * @return array
+     * @return \Illuminate\Http\Response
      */
     public function fetchFollowedIds(int $userId)
     {
         return $this->where('following_id', $userId)->get('followed_id');
+    }
+
+
+    /**
+     * フォロー先id取得
+     * 
+     * @para int $userId
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function fetchFollowingIds(int $userId)
+    {
+        return $this->where('following_id', $userId)->get('followed_id');
+    }
+
+    /**
+     * フォロワーid取得
+     * 
+     * @para int $userId
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function fetchFollowerIds(int $userId)
+    {
+        return $this->where('followed_id', $userId)->get('following_id');
     }
 }

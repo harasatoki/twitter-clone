@@ -42,11 +42,11 @@ class FavoritesController extends Controller
     {
         $tweetId = $request->tweet_id;
         $userId = auth()->id();
-        $favoriteId = $favorite->fetchFavoriteId($userId,$tweetId);
+        $favoriteId = $favorite->fetchFavoriteId($userId, $tweetId);
         $isFavorite = $favorite->isFavorite($userId, $tweetId);
 
         if( $isFavorite ) {
-            $favorite->destroyFavorite($favoriteId);
+            $favorite->destroyFavorite($favoriteId[0]);
         }
         $countFavorite = $favorite->countFavorite($userId, $tweetId);
 

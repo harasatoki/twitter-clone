@@ -37,4 +37,6 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('comments', CommentsController::class, ['only' => ['store']]);
     Route::post('favorites/store', [FavoritesController::class, 'store']);
     Route::delete('favorites/destroy', [FavoritesController::class, 'destroy'])->name('favorites.destroy');
+    Route::get('users/{user}/follower', [UsersController::class,'follower'])->name('users.follower');
+    Route::get('users/{user}/following', [UsersController::class,'following'])->name('users.following');
 });

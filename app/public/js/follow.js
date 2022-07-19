@@ -1,4 +1,4 @@
-(() => { 
+(() => {
 var __webpack_exports__ = {};
 jQuery(document).ready(function () {
   $('.follow').on('click', function () {
@@ -9,7 +9,7 @@ jQuery(document).ready(function () {
       url: '/users/follow',
       dataType: 'json',
       data: {
-        "id": userId
+        "userId": userId
       },
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -17,7 +17,13 @@ jQuery(document).ready(function () {
     }).done(function (res) {
       document.getElementById('follow-' + userId).style.display = 'none';
       document.getElementById('unfollow-' + userId).style.display = 'inline';
-    }).fail(function (error) {});
+
+      if (document.getElementById('followerCount') != null) {
+        document.getElementById('followerCount').innerHTML = res['followerCount'];
+      }
+    }).fail(function (error) {
+      alert("ユーザーフォローの通信に失敗しました\n通信環境、データ通信の許可設定、セキュリティの確認をしてください");
+    });
   });
   $('.unfollow').on('click', function () {
     var $this = $(this);
@@ -27,7 +33,7 @@ jQuery(document).ready(function () {
       url: '/users/unfollow',
       dataType: 'json',
       data: {
-        'id': userId,
+        'userId': userId,
         '_method': 'DELETE'
       },
       headers: {
@@ -36,7 +42,13 @@ jQuery(document).ready(function () {
     }).done(function (res) {
       document.getElementById('follow-' + userId).style.display = 'inline';
       document.getElementById('unfollow-' + userId).style.display = 'none';
-    }).fail(function (error) {});
+
+      if (document.getElementById('followerCount') != null) {
+        document.getElementById('followerCount').innerHTML = res['followerCount'];
+      }
+    }).fail(function (error) {
+      alert("ユーザーフォロー削除の通信に失敗しました\n通信環境、データ通信の許可設定、セキュリティの確認をしてください");
+    });
   });
 });
 })()

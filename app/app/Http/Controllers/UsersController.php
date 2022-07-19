@@ -15,7 +15,7 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('valiUserMiddleware')->only( ['update'] );
+        $this->middleware('validateUserMiddleware')->only( ['update'] );
     }
 
     /**
@@ -33,48 +33,93 @@ class UsersController extends Controller
             'users' => $users
         ]);
     }
-    // フォロー
+
+    /**
+     * フォロー一覧
+     * 
+     * @param User $user
+     * @param Follower $follower
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function following(User $user, Follower $follower)
+    {
+        $followingIds = $follower->fetchfollowingIds($user->id);
+        $followingUsers = collect([]);
+        foreach( $followingIds as $followingId ){
+            $followingUsers = $followingUsers->concat([$user->fetchUser($followingId->followed_id)]);
+        };
+        
+        return view('users.following',[
+            'followingUsers' => $followingUsers,
+            'user' => $user
+        ]);
+    }
+
+    /**
+     * フォロワー一覧
+     * 
+     * @param User $user
+     * @param Follower $follower
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function follower(User $user, Follower $follower)
+    {
+        $followerIds = $follower->fetchfollowerIds($user->id);
+        $followerUsers = collect([]);
+        foreach( $followerIds as $followerId ){
+            $followerUsers = $followerUsers->concat([$user->fetchUser($followerId->following_id)]);
+        };
+        
+        return view('users.follower',[
+            'followerUsers' => $followerUsers,
+            'user' => $user
+        ]);
+    }
+
     /**
      * フォロー機能
      *
      * @param Request $request
+     * @param Follower $follower
      * 
      * @return \Illuminate\Http\Response
      */
-    public function follow(Request $request)
+    public function follow(Request $request, Follower $follower)
     {
-        $follower = auth()->user();
-        
-        // フォローしているか
-        $isFollowing = $follower->isFollowing( $request->input('id') );
+        $loginUser = auth()->user();
+        $isFollowing = $loginUser->isFollowing( $request->input('userId') );
 
         if(!$isFollowing) {
-            // フォローしていなければフォローする
-            $follower->follow( $request->input('id') );
+            $loginUser->follow( $request->input('userId') );
         }
 
-        return response()->json();
+        $followerCount = $follower->fetchFollowerCount($request->input('userId'));
+
+        return response()->json(['followerCount'=>$followerCount]);
     }
 
-    // フォロー解除
     /**
      * unfolow機能
      *
      * @param Request $request
+     * @param Follower $follower
      * 
      * @return \Illuminate\Http\Response
      */
-    public function unfollow(Request $request)
+    public function unfollow(Request $request, Follower $follower)
     {
-        $follower = auth()->user();
-        // フォローしているか
-        $isFollowing = $follower->isFollowing( $request->input('id') );
+        $loginUser = auth()->user();
+        $isFollowing = $loginUser->isFollowing( $request->input('userId') );
 
         if( $isFollowing ) {
-            // フォローしていればフォローを解除する
-            $follower->unfollow( $request->input('id') );
+            $loginUser->unfollow( $request->input('userId') );
         }
-        return response()->json();
+
+        $followerCount = $follower->fetchFollowerCount($request->input('userId'));
+
+        return response()->json(['followerCount'=>$followerCount]);
     }
 
     /**
@@ -118,7 +163,11 @@ class UsersController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', ['user' => $user]);
+        if($user->id == auth()->id()){
+            return view('users.edit', ['user' => $user]);
+        }else{
+            return back();
+        }
     }
 
     /**

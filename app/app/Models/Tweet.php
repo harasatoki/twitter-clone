@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Http\Controllers\FavoritesController;
-use Illuminate\Database\Eloquent\softDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Tweet extends Model
