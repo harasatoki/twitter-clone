@@ -54,10 +54,10 @@ class Favorite extends Model
      * @param int $userId
      * @param int $tweetId
      * 
-     * @return int
+     * @return array
      */
     public function fetchFavoriteId(int $userId, int $tweetId){
-        return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->first()->id;
+        return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->pluck('id');
     }
 
     /**
