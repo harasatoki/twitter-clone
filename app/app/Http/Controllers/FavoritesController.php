@@ -44,7 +44,7 @@ class FavoritesController extends Controller
         $userId = auth()->id();
         $favoriteId = $favorite->fetchFavoriteId($userId,$tweetId);
         $isFavorite = $favorite->isFavorite($userId, $tweetId);
-
+        
         if( $isFavorite ) {
             $favorite->destroyFavorite($favoriteId);
         }

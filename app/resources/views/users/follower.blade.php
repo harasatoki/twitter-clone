@@ -5,10 +5,12 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <a href="{{ route('users.show',$user->id) }}">
-                        {{ $user->name }}
-                    </a>
-                    のフォロワー一覧
+                    <p>
+                        <a href="{{ route('users.show',$user->id) }}">
+                            {{ $user->name }}
+                        </a>
+                        のフォロワー一覧
+                    </p>
                 </div>
                 <div class="card">
                     <div class="card-haeder p-3 w-100 d-flex d-flex justify-content-around">
@@ -37,15 +39,17 @@
                                     <span class="px-1 bg-secondary text-light">フォローされています</span>
                                 </div>
                             @endif
-                            <div class="d-flex justify-content-end flex-grow-1" data-user="{{ $followerUser->id }}">
-                                @if (auth()->user()->isFollowing($followerUser->id))
-                                    <button class="btn btn-danger unfollow" id="unfollow-{{ $followerUser->id }}"  data-id="{{ $followerUser->id }}">フォロー解除</button>
-                                    <button class="btn btn-primary follow" id="follow-{{ $followerUser->id }}"  data-id="{{ $followerUser->id }}"　style="display:none">フォローする</button>
-                                @else
-                                    <button class="btn btn-danger unfollow" id="unfollow-{{ $followerUser->id }}"  data-id="{{ $followerUser->id }}" style="display:none">フォロー解除</button>
-                                    <button class="btn btn-primary follow" id="follow-{{ $followerUser->id }}"  data-id="{{ $followerUser->id }}">フォローする</button>
-                                @endif
-                            </div>
+                            @if (auth()->id() != $followerUser->id)
+                                <div class="d-flex justify-content-end flex-grow-1" data-user="{{ $followerUser->id }}">
+                                    @if (auth()->user()->isFollowing($followerUser->id))
+                                        <button class="btn btn-danger unfollow" id="unfollow-{{ $followerUser->id }}"  data-id="{{ $followerUser->id }}">フォロー解除</button>
+                                        <button class="btn btn-primary follow" id="follow-{{ $followerUser->id }}"  data-id="{{ $followerUser->id }}"　style="display:none">フォローする</button>
+                                    @else
+                                        <button class="btn btn-danger unfollow" id="unfollow-{{ $followerUser->id }}"  data-id="{{ $followerUser->id }}" style="display:none">フォロー解除</button>
+                                        <button class="btn btn-primary follow" id="follow-{{ $followerUser->id }}"  data-id="{{ $followerUser->id }}">フォローする</button>
+                                    @endif
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @empty
