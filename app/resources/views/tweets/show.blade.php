@@ -8,7 +8,7 @@
             <div class="card">
                 <div class="card-haeder p-3 w-100 d-flex">
                     <a href="{{ route('users.show',$tweet->user->id) }}">
-                        @if ($tweet->user->profile_image== 'https://placehold.jp/50x50.png' || $tweet->user->profile_image==null)
+                        @if ( $tweet->user->profile_image == 'https://placehold.jp/50x50.png' || $tweet->user->profile_image == null)
                             <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
                         @else
                             <img src="{{ asset('storage/profile_image/' .$tweet->user->profile_image) }}" class="rounded-circle" width="50" height="50">
@@ -68,7 +68,7 @@
                     <li class="list-group-item">
                         <div class="py-3 w-100 d-flex">
                             <a href="{{ route('users.show',$comment->user->id) }}">
-                                @if ($comment->user->profile_image== 'https://placehold.jp/50x50.png' || $comment->user->profile_image==null)
+                                @if ( $comment->user->profile_image == 'https://placehold.jp/50x50.png' || $comment->user->profile_image == null )
                                     <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
                                 @else
                                     <img src="{{ asset('storage/profile_image/' .$comment->user->profile_image) }}" class="rounded-circle" width="50" height="50">
@@ -99,7 +99,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-12 p-3 w-100 d-flex">
                                     <a href="{{ route('users.show',$user->id) }}">
-                                        @if ($user->profile_image== 'https://placehold.jp/50x50.png' || $user->profile_image==null)
+                                        @if ( $user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null )
                                             <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
                                         @else
                                             <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">

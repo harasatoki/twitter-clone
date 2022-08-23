@@ -12,7 +12,7 @@
                     <div class="card">
                         <div class="card-haeder p-3 w-100 d-flex">
                             <a href="{{ route('users.show',$timeline->user->id) }}">
-                                @if ($timeline->user->profile_image== 'https://placehold.jp/50x50.png' || $timeline->user->profile_image==null)
+                                @if ( $timeline->user->profile_image == 'https://placehold.jp/50x50.png' || $timeline->user->profile_image == null )
                                     <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
                                 @else
                                     <img src="{{ asset('storage/profile_image/' .$timeline->user->profile_image) }}" class="rounded-circle" width="50" height="50">
@@ -64,7 +64,11 @@
                     </div>
                 </div>
             @empty
-                誰もツイートしていません
+            <div class="card">
+                <div class="card-haeder p-3 w-100 d-flex">
+                    誰もツイートしていません
+                </div>
+            </div>
             @endforelse
         @endif
     </div>

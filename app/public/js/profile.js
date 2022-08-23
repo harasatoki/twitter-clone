@@ -1,12 +1,10 @@
 (() => {
-var __webpack_exports__ = {};
+const __webpack_exports__ = {};
 jQuery(document).ready(function () {
   $('#myImage').on('change', function (e) {
-    console.log("Aaaaaa");
-    var reader = new FileReader();
+    const reader = new FileReader();
 
     reader.onload = function (e) {
-      console.log("sdhgfalijd");
       $("#preview").attr('src', e.target.result);
     };
 

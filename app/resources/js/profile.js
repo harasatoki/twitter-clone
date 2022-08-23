@@ -1,6 +1,6 @@
 jQuery(document).ready(function () {
     $('#myImage').on('change',function(e){
-        var reader = new FileReader();
+        const reader = new FileReader();
         reader.onload = function (e){
             $("#preview").attr('src',e.target.result);
         }

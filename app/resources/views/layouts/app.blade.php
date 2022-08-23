@@ -73,7 +73,7 @@
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('users.show',Auth::user()->id) }}">
-                                    @if (auth::user()->profile_image== 'https://placehold.jp/50x50.png' || auth::user()->profile_image==null)
+                                    @if ( auth::user()->profile_image == 'https://placehold.jp/50x50.png' || auth::user()->profile_image == null )
                                         <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
                                     @else
                                         <img src="{{ asset('storage/profile_image/' .auth::user()->profile_image) }}" class="rounded-circle" width="50" height="50">
