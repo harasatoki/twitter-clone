@@ -25,7 +25,7 @@ class FavoritesController extends Controller
             $favorite->storeFavorite($userId, $tweetId);
         }
 
-        $countFavorite = $favorite->countFavorite($userId, $tweetId);
+        $countFavorite = $favorite->countFavorite($tweetId);
 
         return response()->json(['countFavorite' => $countFavorite]);
     }
@@ -48,7 +48,7 @@ class FavoritesController extends Controller
         if( $isFavorite ) {
             $favorite->destroyFavorite($favoriteId[0]);
         }
-        $countFavorite = $favorite->countFavorite($userId, $tweetId);
+        $countFavorite = $favorite->countFavorite($tweetId);
 
         return response()->json(['countFavorite' => $countFavorite]);
     }
