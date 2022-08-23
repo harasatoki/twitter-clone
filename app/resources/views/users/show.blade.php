@@ -9,7 +9,11 @@
                 <div class="d-inline-flex">
                     <div class="p-3 d-flex flex-column">
                         <button class="show_pop">
-                            <i><img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle popup" width="100" height="100" alt="no image" id="popup"></i>
+                            @if ($user->profile_image== 'https://placehold.jp/50x50.png' || $user->profile_image==null)
+                                <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
+                            @else
+                                <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                            @endif
                         </button>
                         <div class="mt-3 d-flex flex-column">
                             <h4 class="mb-0 font-weight-bold">{{ $user->name }}</h4>
@@ -69,7 +73,11 @@
                     <div class="card">
                         <div class="card-haeder p-3 w-100 d-flex">
                             <a href="#">
-                                <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                                @if ($user->profile_image== 'https://placehold.jp/50x50.png' || $user->profile_image==null)
+                                    <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
+                                @else
+                                    <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                                @endif
                             </a>
                             <div class="ml-2 d-flex flex-column flex-grow-1">
                                 <p class="mb-0">{{ $timeline->user->name }}</p>
@@ -128,7 +136,11 @@
         <button class=" close">×</button>
     </div>
     <div class="modal_pop_main">
-        <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" alt="no image" >
+        @if ($user->profile_image== 'https://placehold.jp/50x50.png' || $user->profile_image==null)
+            <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}">
+        @else
+            <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}">
+        @endif
     </div>
 </div>
 @endsection
