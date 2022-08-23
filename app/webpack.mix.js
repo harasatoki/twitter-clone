@@ -17,5 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
     .js('resources/js/follow.js', 'public/js')
     .js('resources/js/favorite.js', 'public/js')
     .js('resources/js/popup.js', 'public/js')
+    .js('resources/js/profile.js', 'public/js')
     .postCss('resources/css/popup.css', 'public/css')
+    .postCss('resources/css/comment.css', 'public/css')
     ;
