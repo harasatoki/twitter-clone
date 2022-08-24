@@ -9,7 +9,7 @@
                 <div class="d-inline-flex">
                     <div class="p-3 d-flex flex-column">
                         <button class="show_pop">
-                            @if ( $user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null )
+                            @if ($user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null)
                                 <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
                             @else
                                 <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
@@ -73,7 +73,7 @@
                     <div class="card">
                         <div class="card-haeder p-3 w-100 d-flex">
                             <a href="#">
-                                @if ( $user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null )
+                                @if ($user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null)
                                     <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
                                 @else
                                     <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
@@ -136,7 +136,7 @@
         <button class=" close">×</button>
     </div>
     <div class="modal_pop_main">
-        @if ( $user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null )
+        @if ($user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null)
             <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}">
         @else
             <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}">

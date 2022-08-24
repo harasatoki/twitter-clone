@@ -16,7 +16,7 @@
                             <label for="profile_image" class="col-md-4 col-form-label text-md-right"　alt="no image">{{ __('ユーザー画像') }}</label>
 
                             <div class="col-md-6 d-flex align-items-center">
-                                @if ( $user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null )
+                                @if ($user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null)
                                     <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="mr-2 rounded-circle" width="80" height="80" id="preview">
                                 @else
                                     <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="mr-2 rounded-circle" width="80" height="80" id="preview">
