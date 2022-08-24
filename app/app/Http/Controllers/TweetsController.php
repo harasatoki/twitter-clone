@@ -6,16 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Tweet;
 use App\Models\Comment;
 use App\Models\Follower;
+use App\Http\Requests\ValidateTweet;
+
 class TweetsController extends Controller
 {
-    /**
-     * バリデーション
-     */
-    public function __construct()
-    {
-        $this->middleware('validateTweetMiddleware')->only(['store','update']);
-    }
-
     /**
      *ツイート一覧
      *
@@ -54,12 +48,12 @@ class TweetsController extends Controller
     /**
      *ツイート内容の保存
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ValidateTweet  $request
      * @param  Tweet $tweet
      * 
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Tweet $tweet)
+    public function store(ValidateTweet $request, Tweet $tweet)
     {
         $userId = auth()->id();
         $tweetData = $request->all();
@@ -114,12 +108,12 @@ class TweetsController extends Controller
     /**
      *編集の適用
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ValidateTweet  $request
      * @param  Tweet  $tweet
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(Tweet $tweet, Request $request)
+    public function update(Tweet $tweet, ValidateTweet $request)
     {
         $tweetData = $request->all();
         $tweet->updateTweet($tweet->id, $tweetData);
@@ -131,6 +125,7 @@ class TweetsController extends Controller
      *ツイート削除
      *
      * @param  Tweet  $tweet
+     * @param  \Illuminate\Http\Request  $request
      * 
      * @return \Illuminate\Http\Response
      */

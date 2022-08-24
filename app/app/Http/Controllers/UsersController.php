@@ -7,17 +7,10 @@ use App\Models\User;
 use App\Models\Tweet;
 use App\Models\Follower;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ValidateUser;
 
 class UsersController extends Controller
 {
-    /**
-     * バリデーション
-     */
-    public function __construct()
-    {
-        $this->middleware('validateUserMiddleware')->only( ['update'] );
-    }
-
     /**
      * ユーザー一覧
      * 
@@ -173,12 +166,12 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ValidateUser  $request
      * @param  User $user
      * 
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(ValidateUser $request, User $user)
     {
         $userData = $request->all();
         $user->updateProfile( $userData );
