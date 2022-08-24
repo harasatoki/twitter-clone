@@ -63,12 +63,11 @@ class Favorite extends Model
     /**
      * いいね数取得
      *
-     * @param int $userId
      * @param int $tweetId
      * 
      * @return int
      */
-    public function countFavorite(int $userId, int $tweetId){
-        return $this->where('user_id', $userId)->where('tweet_id', $tweetId)->count();
+    public function countFavorite(int $tweetId){
+        return $this->where('tweet_id', $tweetId)->count();
     }
 }

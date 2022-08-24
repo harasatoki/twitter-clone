@@ -1,5 +1,5 @@
-(() => { 
-var __webpack_exports__ = {};
+(() => {
+const __webpack_exports__ = {};
 jQuery(document).ready(function () {
   $('.modal_pop').hide();
   $('.show_pop').on('click', function () {

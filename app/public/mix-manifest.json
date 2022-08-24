@@ -3,6 +3,8 @@
     "/js/follow.js": "/js/follow.js",
     "/js/favorite.js": "/js/favorite.js",
     "/js/popup.js": "/js/popup.js",
+    "/js/profile.js": "/js/profile.js",
     "/css/app.css": "/css/app.css",
+    "/css/comment.css": "/css/comment.css",
     "/css/popup.css": "/css/popup.css"
 }

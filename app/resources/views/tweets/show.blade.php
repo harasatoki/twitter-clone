@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+<link href="{{ asset('css/comment.css') }}" rel="stylesheet">
 @section('content')
 <div class="container">
     <div class="row justify-content-center mb-5">
@@ -7,7 +8,11 @@
             <div class="card">
                 <div class="card-haeder p-3 w-100 d-flex">
                     <a href="{{ route('users.show',$tweet->user->id) }}">
-                        <img src="{{ asset('storage/profile_image/' .$tweet->user->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                        @if ($tweet->user->profile_image == 'https://placehold.jp/50x50.png' || $tweet->user->profile_image == null)
+                            <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
+                        @else
+                            <img src="{{ asset('storage/profile_image/' .$tweet->user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                        @endif
                     </a>
                     <div class="ml-2 d-flex flex-column">
                         <p class="mb-0">{{ $tweet->user->name }}</p>
@@ -63,7 +68,11 @@
                     <li class="list-group-item">
                         <div class="py-3 w-100 d-flex">
                             <a href="{{ route('users.show',$comment->user->id) }}">
-                                <img src="{{ asset('storage/profile_image/' .$comment->user->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                                @if ($comment->user->profile_image == 'https://placehold.jp/50x50.png' || $comment->user->profile_image == null)
+                                    <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
+                                @else
+                                    <img src="{{ asset('storage/profile_image/' .$comment->user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                                @endif
                             </a>
                             <div class="ml-2 d-flex flex-column">
                                 <p class="mb-0">{{ $comment->user->name }}</p>
@@ -73,7 +82,7 @@
                                 <p class="mb-0 text-secondary">{{ $comment->created_at->format('Y-m-d H:i') }}</p>
                             </div>
                         </div>
-                        <div class="py-3">
+                        <div class="py-3 comment-list">
                             {!! nl2br(e($comment->text)) !!}
                         </div>
                     </li>
@@ -90,7 +99,11 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-12 p-3 w-100 d-flex">
                                     <a href="{{ route('users.show',$user->id) }}">
-                                        <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                                        @if ($user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null)
+                                            <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
+                                        @else
+                                            <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
+                                        @endif
                                     </a>
                                     <div class="ml-2 d-flex flex-column">
                                         <p class="mb-0">{{ $user->name }}</p>

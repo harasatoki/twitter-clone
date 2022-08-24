@@ -1,5 +1,5 @@
 (() => {
-var __webpack_exports__ = {};
+const __webpack_exports__ = {};
 jQuery(document).ready(function () {
   $('.follow').on('click', function () {
     var $this = $(this);

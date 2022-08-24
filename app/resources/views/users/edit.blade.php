@@ -16,8 +16,12 @@
                             <label for="profile_image" class="col-md-4 col-form-label text-md-right"　alt="no image">{{ __('ユーザー画像') }}</label>
 
                             <div class="col-md-6 d-flex align-items-center">
-                                <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="mr-2 rounded-circle" width="80" height="80" alt="profile_image">
-                                <input type="file" name="profile_image" class="@error('profile_image') is-invalid @enderror" autocomplete="profile_image">
+                                @if ($user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null)
+                                    <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="mr-2 rounded-circle" width="80" height="80" id="preview">
+                                @else
+                                    <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="mr-2 rounded-circle" width="80" height="80" id="preview">
+                                @endif
+                                <input type="file" name="profile_image" class="@error('profile_image') is-invalid @enderror test" autocomplete="profile_image" id="myImage">
 
                                 @error('profile_image')
                                     <span class="invalid-feedback" role="alert">
@@ -81,3 +85,4 @@
     </div>
 </div>
 @endsection
+<script src="{{ asset('/js/profile.js') }}" defer></script>

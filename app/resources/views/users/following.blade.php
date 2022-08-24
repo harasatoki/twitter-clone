@@ -28,7 +28,11 @@
                     <div class="card">
                         <div class="card-haeder p-3 w-100 d-flex">
                             <a href="{{ route('users.show',$followingUser->id) }}">
-                                <img src="{{ asset('storage/profile_image/' .$followingUser->profile_image) }}" class="rounded-circle" width="50" height="50" alt="no image">
+                                @if ($followingUser->profile_image == 'https://placehold.jp/50x50.png' || $followingUser->profile_image == null)
+                                    <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
+                                @else
+                                    <img src="{{ asset('storage/profile_image/' .$followingUser->profile_image) }}" class="rounded-circle" width="50" height="50">
+                                @endif
                             </a>
                             <div class="ml-2 d-flex flex-column">
                                 <p class="mb-0">{{ $followingUser->name }}</p>
