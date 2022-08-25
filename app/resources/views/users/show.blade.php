@@ -7,7 +7,7 @@
         <div class="col-md-8 mb-3" >
             <div class="card">
                 <div class="d-inline-flex">
-                    <div class="p-3 d-flex flex-column">
+                    <div class="p-3 d-flex flex-column col-4">
                         <button class="show_pop">
                             @if ($user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null)
                                 <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
@@ -20,8 +20,8 @@
                             <span class="text-secondary">{{ $user->screen_name }}</span>
                         </div>
                     </div>
-                    <div class="p-3 d-flex flex-column justify-content-between">
-                        <div class="d-flex">
+                    <div class="p-3 d-flex flex-column justify-content-between col-8">
+                        <div class="d-flex justify-content-center">
                             <div>
                                 @if ($user->id === Auth::user()->id)
                                     <a href="{{ route('users.edit',$user->id)}}" class="btn btn-primary">プロフィールを編集する</a>
@@ -40,12 +40,12 @@
                                 @endif
                             </div>
                         </div>
-                        <div class= "d-flex flex-row text-secondary">
+                        <div class= "d-flex text-secondary justify-content-center">
                             <p><font size="3">
                                 <h4 class="font-weight-bold">{{ substr($user->created_at, 0,10)}}からTwicloを利用しています</h4>
                             </font></p>
                         </div>
-                        <div class="d-flex justify-content-end">
+                        <div class="d-flex justify-content-center">
                             <div class="p-2 d-flex flex-column align-items-center">
                                 <p class="font-weight-bold">ツイート数</p>
                                 <span>{{ $tweetCount }}</span>
@@ -71,7 +71,7 @@
             @foreach ($timelines as $timeline)
                 <div class="col-md-8 mb-3">
                     <div class="card">
-                        <div class="card-haeder p-3 w-100 d-flex">
+                        <div class="card-header p-3 w-100 d-flex">
                             <a href="#">
                                 @if ($user->profile_image == 'https://placehold.jp/50x50.png' || $user->profile_image == null)
                                     <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
@@ -79,7 +79,7 @@
                                     <img src="{{ asset('storage/profile_image/' .$user->profile_image) }}" class="rounded-circle" width="50" height="50">
                                 @endif
                             </a>
-                            <div class="ml-2 d-flex flex-column flex-grow-1">
+                            <div class="ml-2 d-flex flex-column flex-grow-1 col-6">
                                 <p class="mb-0">{{ $timeline->user->name }}</p>
                                 <a href="{{route('users.show',$timeline->user->id) }}" class="text-secondary">{{ $timeline->user->screen_name }}</a>
                             </div>

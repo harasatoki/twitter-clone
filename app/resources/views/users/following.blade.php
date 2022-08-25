@@ -13,7 +13,7 @@
                     </p>
                 </div>
                 <div class="card">
-                    <div class="card-haeder p-3 w-100 d-flex d-flex justify-content-around">
+                    <div class="card-header p-3 w-100 d-flex d-flex justify-content-around">
                         <div class="column card px-5 py-3 bg-black bg-opacity-25">
                             フォロー一覧
                         </div>
@@ -26,7 +26,7 @@
                 </div>
                 @forelse ($followingUsers as $followingUser)
                     <div class="card">
-                        <div class="card-haeder p-3 w-100 d-flex">
+                        <div class="card-header p-3 w-100 d-flex">
                             <a href="{{ route('users.show',$followingUser->id) }}">
                                 @if ($followingUser->profile_image == 'https://placehold.jp/50x50.png' || $followingUser->profile_image == null)
                                     <img src="{{ asset('storage/profile_image/noImage.jpeg' )}}" class="rounded-circle" width="50" height="50">
@@ -34,17 +34,17 @@
                                     <img src="{{ asset('storage/profile_image/' .$followingUser->profile_image) }}" class="rounded-circle" width="50" height="50">
                                 @endif
                             </a>
-                            <div class="ml-2 d-flex flex-column">
+                            <div class="ml-2 d-flex flex-column flex-grow-1 col-4">
                                 <p class="mb-0">{{ $followingUser->name }}</p>
                                 <a href="{{ route('users.show',$followingUser->id)}}" class="text-secondary">{{ $followingUser->screen_name }}</a>
                             </div>
                             @if (auth()->user()->isFollowed($followingUser->id))
-                                <div class="px-2">
+                                <div class="px-2 col-3">
                                     <span class="px-1 bg-secondary text-light">フォローされています</span>
                                 </div>
                             @endif
                             @if (auth()->id() != $followingUser->id)
-                                <div class="d-flex justify-content-end flex-grow-1" data-user="{{ $followingUser->id }}">
+                                <div class="d-flex justify-content-end" data-user="{{ $followingUser->id }}">
                                     @if (auth()->user()->isFollowing($followingUser->id))
                                         <button class="btn btn-danger unfollow" id="unfollow-{{ $followingUser->id }}"  data-id="{{ $followingUser->id }}">フォロー解除</button>
                                         <button class="btn btn-primary follow" id="follow-{{ $followingUser->id }}"  data-id="{{ $followingUser->id }}"　style="display:none">フォローする</button>
@@ -58,7 +58,7 @@
                     </div>
                 @empty
                     <div class="card">
-                        <div class="card-haeder p-3 w-100 d-flex">
+                        <div class="card-header p-3 w-100 d-flex">
                             誰もフォローしていません
                         </div>
                     </div>
